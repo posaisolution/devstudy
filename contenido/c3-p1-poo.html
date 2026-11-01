@@ -1,0 +1,1487 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Primer parcial · POO · DevStudy</title>
+<meta name="description" content="Repaso del primer parcial de programación orientada a objetos: los 4 pilares, clase y objeto, super(), polimorfismo y el ejercicio de herencia resuelto.">
+<meta name="theme-color" content="#0d161c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236D5BFF'/%3E%3Cpath d='M11 10l-4 6 4 6M21 10l4 6-4 6M18 8l-4 16' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f1f5f8;
+  --surface: #ffffff;
+  --fg: #14212b;
+  --muted: #566774;
+  --line: #d3dde5;
+  --accent: #0b6e8a;
+  --accent-soft: #dbedf3;
+  --on-accent: #ffffff;
+  --good: #17744a;
+  --good-soft: #def2e6;
+  --bad: #b02a37;
+  --bad-soft: #f8e0e3;
+  --warm: #a35a00;
+  --warm-soft: #f8ead2;
+  --code-bg: #0f1c26;
+  --code-fg: #d6e5ee;
+  --code-doc: #9fd3ae;
+  --code-cm: #8da2b0;
+  --code-bad: #f29ca4;
+  --code-good: #8fe0b0;
+  --hl: #1d4559;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d161c;
+    --surface: #152129;
+    --fg: #e5edf2;
+    --muted: #92a4b1;
+    --line: #263640;
+    --accent: #5cc0dc;
+    --accent-soft: #12323d;
+    --on-accent: #08222b;
+    --good: #5fd394;
+    --good-soft: #12301f;
+    --bad: #f08a95;
+    --bad-soft: #3a1a1f;
+    --warm: #f0b25a;
+    --warm-soft: #3a2a10;
+    --code-bg: #091016;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d161c;
+  --surface: #152129;
+  --fg: #e5edf2;
+  --muted: #92a4b1;
+  --line: #263640;
+  --accent: #5cc0dc;
+  --accent-soft: #12323d;
+  --on-accent: #08222b;
+  --good: #5fd394;
+  --good-soft: #12301f;
+  --bad: #f08a95;
+  --bad-soft: #3a1a1f;
+  --warm: #f0b25a;
+  --warm-soft: #3a2a10;
+  --code-bg: #091016;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-padding-top: 76px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 7vw, 42px);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 6px 0 8px;
+  text-wrap: balance;
+}
+.lead { color: var(--muted); margin: 0; max-width: 62ch; }
+code { font-family: var(--font-mono); font-size: 0.9em; }
+h2, h3 { font-family: var(--font-display); }
+
+/* barra superior */
+.sec { scroll-margin-top: 76px; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  margin: -28px calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 20px calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+}
+.topbar-inner {
+  max-width: 752px;
+  margin: 0 auto;
+  padding: 10px max(16px, env(safe-area-inset-left, 0px)) 10px max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.topbar-brand {
+  display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+  color: var(--fg); text-decoration: none;
+  font-family: var(--font-display); font-size: 15px; font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.01em;
+}
+.topbar-mark {
+  flex: none; width: 30px; height: 30px; border-radius: 9px;
+  display: grid; place-items: center;
+  background: linear-gradient(115deg, #6d5bff, #00e5c0);
+  box-shadow: 0 4px 14px rgba(109, 91, 255, 0.32);
+}
+.topbar-mark svg { width: 16px; height: 16px; }
+.topbar-brand small {
+  display: block; margin-top: 3px;
+  font-family: var(--font-body); font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.topbar-back {
+  margin-left: auto; flex: none;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--fg);
+  font-size: 13px; font-weight: 600; text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.topbar-back:hover { border-color: var(--accent); transform: translateX(-2px); }
+.topbar-back svg { width: 14px; height: 14px; }
+@media (max-width: 480px) {
+  .topbar-brand small { display: none; }
+  .topbar-back { padding: 7px 12px; font-size: 12px; }
+}
+
+/* pasos */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; }
+.steps button {
+  display: flex; gap: 8px; align-items: center;
+  font: inherit; font-size: 14px; font-weight: 600; text-align: left;
+  color: var(--fg); background: var(--surface);
+  border: 1.5px solid var(--line); border-radius: 5px;
+  padding: 9px 10px; cursor: pointer; min-width: 0;
+}
+.steps button:hover { border-color: var(--accent); }
+.steps .n {
+  flex: none; width: 22px; height: 22px; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--accent); color: var(--on-accent); border-radius: 3px;
+}
+
+.sec { display: flex; flex-direction: column; gap: 16px; margin-top: 14px; }
+.sh {
+  font-weight: 700; font-size: clamp(23px, 5.4vw, 30px); line-height: 1.15;
+  letter-spacing: -0.01em; margin: 0; text-wrap: balance;
+}
+.intro { margin: 0; color: var(--muted); max-width: 62ch; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+  padding: 22px 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0;
+}
+.qnum { font-family: var(--font-mono); font-size: 12px; color: var(--accent); letter-spacing: 0.04em; text-transform: uppercase; }
+.ct { font-weight: 700; font-size: clamp(20px, 4.8vw, 24px); line-height: 1.2; margin: 0; text-wrap: balance; }
+.say { margin: 0; font-size: 15.5px; }
+
+pre {
+  margin: 0; background: var(--code-bg); color: var(--code-fg);
+  border-radius: 4px; padding: 14px 16px;
+  font-family: var(--font-mono); font-size: 13px; line-height: 1.62;
+  overflow-x: auto; tab-size: 4;
+}
+pre code { font-size: inherit; }
+
+/* pestañas de los pilares */
+.tabs { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.tab {
+  font: inherit; font-size: 14px; font-weight: 600; text-align: left;
+  color: var(--fg); background: var(--surface);
+  border: 1.5px solid var(--line); border-radius: 5px; padding: 11px 12px; cursor: pointer;
+}
+.tab:hover { border-color: var(--accent); }
+.tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.panel[hidden] { display: none; }
+.panel { display: flex; flex-direction: column; gap: 12px; }
+.panel .ana { background: var(--accent-soft); border-radius: 5px; padding: 12px 14px; font-size: 15px; }
+.panel .ana strong { font-family: var(--font-display); }
+
+/* comparaciones */
+.tbl { overflow-x: auto; }
+.tbl table { border-collapse: collapse; width: 100%; min-width: 440px; font-size: 14.5px; }
+.tbl th, .tbl td { border: 1px solid var(--line); padding: 9px 11px; text-align: left; vertical-align: top; }
+.tbl th { background: var(--accent-soft); font-family: var(--font-display); }
+.tbl td:first-child { font-weight: 600; }
+
+/* demos */
+.act {
+  font-family: var(--font-mono); font-size: 13px; text-align: left;
+  color: var(--fg); background: var(--surface);
+  border: 1.5px solid var(--accent); border-radius: 4px;
+  padding: 8px 11px; cursor: pointer; min-width: 0; overflow-wrap: anywhere;
+}
+.act:hover:not(:disabled) { background: var(--accent-soft); }
+.act.danger { border-color: var(--bad); }
+.act.danger:hover:not(:disabled) { background: var(--bad-soft); }
+.act:disabled { opacity: 0.45; cursor: default; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.log {
+  background: var(--code-bg); color: var(--code-fg);
+  border-radius: 4px; padding: 10px 14px;
+  font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6;
+  min-height: 4.4em; overflow-wrap: anywhere; white-space: pre-wrap;
+}
+.log .bad { color: var(--code-bad); }
+.log .good { color: var(--code-good); }
+.log .dim { color: var(--code-cm); }
+.zt { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+
+/* objetos creados */
+.objects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 10px; }
+.obj {
+  border: 1.5px solid var(--accent); border-radius: 5px; padding: 12px;
+  display: flex; flex-direction: column; gap: 6px; background: var(--surface); min-width: 0;
+}
+.obj b { font-family: var(--font-display); font-size: 16px; }
+.obj .kv { font-family: var(--font-mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.obj .mth { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+.empty { color: var(--muted); font-size: 14px; }
+
+/* preguntas del examen */
+details.qa {
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface); overflow: hidden;
+}
+details.qa + details.qa { margin-top: 10px; }
+details.qa summary {
+  cursor: pointer; padding: 14px 16px; list-style: none;
+  font-family: var(--font-display); font-weight: 600; font-size: 16px; line-height: 1.35;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+details.qa summary::-webkit-details-marker { display: none; }
+details.qa summary .qn {
+  flex: none; width: 24px; height: 24px; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  background: var(--accent-soft); color: var(--accent); border-radius: 3px;
+  margin-top: 1px;
+}
+details.qa summary::after {
+  content: ""; margin-left: auto; flex: none; width: 8px; height: 8px;
+  border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg) translateY(-2px); transition: transform 0.2s;
+}
+details.qa[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+details.qa .ans { padding: 0 16px 16px 52px; display: flex; flex-direction: column; gap: 10px; }
+details.qa .ans p { margin: 0; font-size: 15px; }
+details.qa .ans ul { margin: 0; padding-left: 1.15em; display: flex; flex-direction: column; gap: 5px; font-size: 15px; }
+details.qa .ans li { padding-left: 2px; }
+.kw2 { color: var(--accent); font-weight: 600; }
+@media (max-width: 520px) {
+  details.qa .ans { padding-left: 16px; }
+}
+
+/* aviso */
+.note {
+  border-left: 4px solid var(--warm); background: var(--warm-soft);
+  border-radius: 4px; padding: 12px 14px; font-size: 15px;
+}
+.note strong { font-family: var(--font-display); }
+.note.good { border-left-color: var(--good); background: var(--good-soft); }
+
+/* quiz */
+.segs { display: grid; grid-template-columns: repeat(var(--n, 8), 1fr); gap: 4px; }
+.seg { height: 6px; background: var(--line); border-radius: 1px; }
+.seg.now { background: var(--accent); }
+.seg.ok { background: var(--good); }
+.seg.no { background: var(--bad); }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opt {
+  display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left;
+  font: inherit; color: var(--fg); background: var(--surface);
+  border: 1.5px solid var(--line); border-radius: 5px; padding: 12px 14px; cursor: pointer; min-width: 0;
+}
+.opt:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+.opt:disabled { cursor: default; }
+.opt .key {
+  flex: none; width: 26px; height: 26px; display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  border: 1px solid var(--line); border-radius: 3px; color: var(--muted);
+}
+.opt .txt { flex: 1; min-width: 0; overflow-wrap: anywhere; padding-top: 2px; }
+.opt.good { border-color: var(--good); background: var(--good-soft); }
+.opt.good .key { background: var(--good); border-color: var(--good); color: var(--bg); }
+.opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+.opt.bad .key { background: var(--bad); border-color: var(--bad); color: var(--bg); }
+
+.btn {
+  font: inherit; font-weight: 600; background: var(--accent); color: var(--on-accent);
+  border: 0; border-radius: 5px; padding: 11px 20px; cursor: pointer;
+}
+.btn:hover { filter: brightness(1.08); }
+.link {
+  font: inherit; background: none; border: 0; color: var(--accent);
+  padding: 4px 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+}
+.hint, .why { border-radius: 5px; padding: 12px 14px; font-size: 15px; }
+.hint { background: var(--accent-soft); }
+.why { border: 1px solid var(--line); }
+.why strong { display: block; margin-bottom: 2px; }
+.why.good strong { color: var(--good); }
+.why.bad strong { color: var(--bad); }
+.score { font-family: var(--font-display); font-weight: 700; font-size: clamp(48px, 14vw, 72px); line-height: 1; letter-spacing: -0.02em; }
+.score small { font-size: 0.4em; color: var(--muted); font-weight: 600; }
+
+button:focus-visible, summary:focus-visible, a:focus-visible {
+  outline: 3px solid var(--accent); outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card { animation: rise 0.2s ease-out; }
+  @keyframes rise { from { transform: translateY(6px); opacity: 0.4; } to { transform: none; opacity: 1; } }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar" aria-label="Navegación del sitio">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="../index.html">
+      <span class="topbar-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6L3 12l5 6M16 6l5 6-5 6M14 4l-4 16"/></svg>
+      </span>
+      <span>DevStudy<small>Cuatrimestre 3 · Desarrollo POO</small></span>
+    </a>
+    <a class="topbar-back" href="../index.html" aria-label="Volver al inicio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      <span>Volver al inicio</span>
+    </a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Primer parcial · POO · Python</div>
+    <h1>Todo el primer parcial, en un solo lugar</h1>
+    <p class="lead">
+      Los cuatro pilares explicados con ejemplos que ya conoces, la diferencia entre clase y objeto,
+      qué hace <code>super()</code>, el polimorfismo y el sistema de transporte resuelto paso a paso.
+      Toca las demos, lee las respuestas y al final mide cuánto aprendiste.
+    </p>
+  </header>
+
+  <nav class="steps" aria-label="Secciones de la página">
+    <button type="button" data-go="pilares"><span class="n">1</span>Los 4 pilares</button>
+    <button type="button" data-go="clase"><span class="n">2</span>Clase y objeto</button>
+    <button type="button" data-go="super"><span class="n">3</span>super()</button>
+    <button type="button" data-go="examen"><span class="n">4</span>El examen</button>
+    <button type="button" data-go="transporte"><span class="n">5</span>Transporte</button>
+    <button type="button" data-go="portafolio"><span class="n">6</span>Portafolio</button>
+    <button type="button" data-go="quiz"><span class="n">7</span>Quiz</button>
+  </nav>
+
+  <!-- ============ 1. PILARES ============ -->
+  <section class="sec" id="pilares">
+    <h2 class="sh">Los 4 pilares, sin palabras raras</h2>
+    <p class="intro">
+      La pregunta 2 del examen pide "al menos 4 pilares". Estos son los cuatro que siempre se preguntan.
+      Toca cada uno y léelo en voz alta: si puedes explicarlo con tus palabras, ya lo sabes.
+    </p>
+
+    <div class="card">
+      <div class="qnum">Idea clave</div>
+      <div class="tabs" role="tablist" aria-label="Pilares de la POO">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="p-abs" id="t-abs" data-tab="abs">Abstracción</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-enc" id="t-enc" data-tab="enc">Encapsulamiento</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-her" id="t-her" data-tab="her">Herencia</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="p-pol" id="t-pol" data-tab="pol">Polimorfismo</button>
+      </div>
+
+      <div class="panel" id="p-abs" role="tabpanel" aria-labelledby="t-abs">
+        <h3 class="ct">Abstracción: quedarte con lo importante</h3>
+        <p class="say">
+          Es modelar solo lo que tu programa necesita y esconder el resto del detalle.
+          Cuando manejas un carro no necesitas saber cómo funciona el motor por dentro: usas el volante,
+          el freno y el acelerador. Eso es abstraer.
+        </p>
+        <div class="ana"><strong>En código:</strong> tu clase <code>Vehiculo</code> ofrece <code>mostrar_datos()</code> y quien la usa no necesita saber cómo arma esa cadena por dentro.</div>
+        <pre><code>class Vehiculo:
+    def mostrar_datos(self):
+        return f"{self.__modelo} - {self.__potencia} HP"</code></pre>
+      </div>
+
+      <div class="panel" id="p-enc" role="tabpanel" aria-labelledby="t-enc" hidden>
+        <h3 class="ct">Encapsulamiento: los datos se cuidan solos</h3>
+        <p class="say">
+          Los atributos se guardan protegidos y solo se modifican por medio de métodos. Nadie de afuera
+          puede cambiarlos a su antojo.
+        </p>
+        <div class="ana"><strong>Analogía:</strong> el cajero automático. No metes la mano a la caja fuerte; pides dinero con los botones y el cajero decide si te lo da.</div>
+        <pre><code>class Cuenta:
+    def __init__(self, saldo):
+        self.__saldo = saldo        # privado
+
+    def retirar(self, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+
+    def obtener_saldo(self):        # getter
+        return self.__saldo</code></pre>
+        <p class="say">En Python, <code>__saldo</code> con dos guiones bajos se vuelve privado y solo se lee por <code>obtener_saldo()</code>.</p>
+      </div>
+
+      <div class="panel" id="p-her" role="tabpanel" aria-labelledby="t-her" hidden>
+        <h3 class="ct">Herencia: reutilizar lo que ya existe</h3>
+        <p class="say">
+          Una clase hija recibe los atributos y métodos de la clase padre, y además agrega lo suyo.
+          Se lee como "es un": un taxi <em>es un</em> vehículo.
+        </p>
+        <div class="ana"><strong>En el examen:</strong> <code>Taxi</code> y <code>Autobus</code> heredan de <code>Vehiculo</code>, así que ya tienen matrícula, modelo y potencia sin volver a escribirlos.</div>
+        <pre><code>class Vehiculo:
+    def __init__(self, matricula, modelo, potencia):
+        self.__matricula = matricula
+        self.__modelo = modelo
+        self.__potencia = potencia
+
+class Taxi(Vehiculo):      # hereda todo
+    pass</code></pre>
+      </div>
+
+      <div class="panel" id="p-pol" role="tabpanel" aria-labelledby="t-pol" hidden>
+        <h3 class="ct">Polimorfismo: el mismo nombre, respuestas distintas</h3>
+        <p class="say">
+          Un mismo método se comporta diferente según el objeto que lo ejecuta. Todos los vehículos tienen
+          <code>mostrar_datos()</code>, pero el taxi muestra su licencia y el autobús sus asientos.
+        </p>
+        <div class="ana"><strong>Analogía:</strong> todos los animales responden a <code>hablar()</code>, pero el perro ladra y el gato maúlla. Misma orden, distinto resultado.</div>
+        <pre><code>class Taxi(Vehiculo):
+    def mostrar_datos(self):
+        return super().mostrar_datos() + " | Licencia: L-9087"
+
+class Autobus(Vehiculo):
+    def mostrar_datos(self):
+        return super().mostrar_datos() + " | Asientos: 40"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. CLASE Y OBJETO ============ -->
+  <section class="sec" id="clase">
+    <h2 class="sh">Clase y objeto: el molde y las galletas</h2>
+    <p class="intro">
+      Esta es la pregunta 3 y 4 del examen, y es donde más se confunde la gente. La clase es el molde;
+      los objetos son las galletas que salen de ese molde, cada una con sus propios datos.
+    </p>
+
+    <div class="card">
+      <div class="qnum">Demo</div>
+      <h3 class="ct">Una clase, muchos objetos</h3>
+      <p class="say">
+        Abajo está la clase <code>Alumno</code>. Es una sola definición: el molde. Cada vez que llamas
+        al constructor nace un objeto nuevo con sus propios valores.
+      </p>
+
+      <pre><code>class Alumno:
+    def __init__(self, nombre, matricula):
+        self.nombre = nombre          # atributo
+        self.matricula = matricula    # atributo
+
+    def saludar(self):                # metodo
+        return f"Hola, soy {self.nombre}"</code></pre>
+
+      <div class="row">
+        <button class="act" type="button" id="crearObj">Alumno("...", "...")</button>
+        <button class="act danger" type="button" id="resetObj">Reiniciar</button>
+        <span class="zt" id="objCount">0 objetos creados</span>
+      </div>
+
+      <div class="objects" id="objList">
+        <span class="empty">Todavía no hay objetos. Toca el botón para crear el primero.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Para el examen</div>
+      <h3 class="ct">Las dos diferencias que te van a preguntar</h3>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Concepto</th><th>Qué es</th><th>Cómo lo reconoces</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Clase</td>
+              <td>El molde, la definición. No ocupa memoria como objeto todavía.</td>
+              <td>Se declara con <code>class</code> y empieza con mayúscula.</td>
+            </tr>
+            <tr>
+              <td>Objeto</td>
+              <td>La instancia real creada a partir del molde, con sus propios valores.</td>
+              <td>Nace al llamar <code>Alumno("Ana", "2026001")</code>.</td>
+            </tr>
+            <tr>
+              <td>Atributo</td>
+              <td>Un dato, el estado del objeto. Responde a <em>qué es</em> o <em>qué tiene</em>.</td>
+              <td>Sustantivo: <code>nombre</code>, <code>saldo</code>, <code>potencia</code>.</td>
+            </tr>
+            <tr>
+              <td>Método</td>
+              <td>Una acción, el comportamiento. Responde a <em>qué hace</em>.</td>
+              <td>Verbo: <code>saludar()</code>, <code>depositar()</code>, <code>mostrar_datos()</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note good">
+        <strong>Regla rápida:</strong> si lleva paréntesis es método. Si se guarda con <code>=</code> es atributo.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. SUPER ============ -->
+  <section class="sec" id="super">
+    <h2 class="sh">super(): qué hace y qué pasa si lo olvidas</h2>
+    <p class="intro">
+      <code>super().__init__(...)</code> ejecuta el constructor de la clase padre desde la clase hija.
+      Sirve para que los atributos heredados sí se creen. Es la pregunta 5 y vale varios puntos.
+    </p>
+
+    <div class="card">
+      <div class="qnum">Demo</div>
+      <h3 class="ct">El mismo taxi, con y sin super()</h3>
+      <p class="say">Toca los dos botones y compara lo que pasa.</p>
+
+      <div class="tools">
+        <button class="act" type="button" id="btnCon">Con super()</button>
+        <button class="act danger" type="button" id="btnSin">Sin super()</button>
+        <button class="act" type="button" id="btnLimpiar">Limpiar</button>
+      </div>
+
+      <div class="log" id="logSuper" aria-live="polite"><span class="dim">Toca un botón para ver el resultado.</span></div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">La respuesta que esperan</div>
+      <p class="say">
+        <strong>Propósito:</strong> llamar al constructor de la clase padre para que inicialice los atributos
+        que la subclase hereda, y así no repetir ese código.
+      </p>
+      <p class="say">
+        <strong>Si lo omites:</strong> el constructor del padre nunca se ejecuta, esos atributos no existen
+        y al intentar usarlos el programa truena con <code>AttributeError</code>. En Python el padre
+        <em>no</em> se llama solo: lo tienes que llamar tú.
+      </p>
+      <pre><code>class Taxi(Vehiculo):
+    def __init__(self, matricula, modelo, potencia, licencia):
+        super().__init__(matricula, modelo, potencia)   # &lt;-- obligatorio
+        self.__licencia = licencia</code></pre>
+      <div class="note">
+        <strong>Ojo:</strong> si escribes <code>Vehiculo.__init__(self, ...)</code> también funciona, pero
+        <code>super()</code> es la forma correcta y la que se pregunta.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. EL EXAMEN ============ -->
+  <section class="sec" id="examen">
+    <h2 class="sh">Las 6 preguntas de teoría, respondidas</h2>
+    <p class="intro">
+      Primero intenta contestar en tu cabeza. Después abre la respuesta y compara. Si tu respuesta se parece
+      en idea, ya vas bien.
+    </p>
+
+    <div>
+      <details class="qa" open>
+        <summary><span class="qn">1</span>¿Qué es la programación orientada a objetos?</summary>
+        <div class="ans">
+          <p>
+            Es un <span class="kw2">paradigma de programación</span> que organiza el código en
+            <span class="kw2">objetos</span>. Cada objeto junta dos cosas: sus <span class="kw2">datos</span>
+            (atributos) y las <span class="kw2">acciones</span> que puede hacer con esos datos (métodos).
+          </p>
+          <p>
+            En lugar de escribir funciones sueltas que trabajan con variables sueltas, modelas las cosas del
+            mundo real —un alumno, una cuenta, un taxi— y las pones a colaborar entre sí.
+          </p>
+          <p><strong>Respuesta corta:</strong> es una forma de programar basada en objetos que combinan datos y comportamiento.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary><span class="qn">2</span>Menciona al menos 4 pilares de la POO</summary>
+        <div class="ans">
+          <ul>
+            <li><span class="kw2">Abstracción:</span> modelar solo lo importante y esconder el detalle.</li>
+            <li><span class="kw2">Encapsulamiento:</span> proteger los datos y acceder a ellos solo por métodos.</li>
+            <li><span class="kw2">Herencia:</span> una clase hija reutiliza y amplía lo de la clase padre.</li>
+            <li><span class="kw2">Polimorfismo:</span> el mismo método se comporta distinto según el objeto.</li>
+          </ul>
+          <p>Algunos autores agregan un quinto: la <span class="kw2">composición</span> (un objeto contiene a otro).</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary><span class="qn">3</span>¿Cuál es la diferencia exacta entre una Clase y un Objeto?</summary>
+        <div class="ans">
+          <p>
+            La <span class="kw2">clase es la definición</span>: el molde que dice qué atributos y métodos va a
+            tener algo. El <span class="kw2">objeto es la instancia</span>: algo concreto creado a partir de
+            ese molde, que ya vive en memoria y tiene sus propios valores.
+          </p>
+          <p>
+            La diferencia está en la palabra <em>exacta</em>: la clase describe, el objeto existe.
+            Una clase <code>Alumno</code> puede generar mil objetos <code>Alumno</code>, todos con distinto
+            nombre y matrícula, pero con la misma estructura.
+          </p>
+          <p><strong>Analogía:</strong> el molde de galletas es la clase; cada galleta es un objeto.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary><span class="qn">4</span>¿Cuál es la diferencia de rol entre un Atributo y un Método?</summary>
+        <div class="ans">
+          <p>
+            El <span class="kw2">atributo guarda el estado</span>: es un dato del objeto y responde a
+            <em>qué es</em> o <em>qué tiene</em>. El <span class="kw2">método define el comportamiento</span>:
+            es una acción y responde a <em>qué hace</em>.
+          </p>
+          <p>
+            En una cuenta bancaria, <code>saldo</code> y <code>titular</code> son atributos;
+            <code>depositar()</code> y <code>obtener_saldo()</code> son métodos.
+          </p>
+          <p><strong>Truco:</strong> atributo = sustantivo, método = verbo con paréntesis.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary><span class="qn">5</span>¿Para qué sirve super() y qué pasa si lo omites?</summary>
+        <div class="ans">
+          <p>
+            <span class="kw2">Propósito:</span> llamar al constructor de la clase padre desde la subclase,
+            para que inicialice los atributos heredados y no tengas que repetir ese código.
+          </p>
+          <p>
+            <span class="kw2">Si lo omites:</span> el constructor del padre nunca se ejecuta, los atributos
+            heredados no se crean, y al usarlos el programa lanza un
+            <code>AttributeError</code>. En Python la llamada no es automática.
+          </p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary><span class="qn">6</span>¿Qué es el polimorfismo y cómo se manifiesta?</summary>
+        <div class="ans">
+          <p>
+            Es la capacidad de que un <span class="kw2">mismo método</span> (mismo nombre) se comporte
+            de forma <span class="kw2">distinta según el objeto</span> que lo ejecuta.
+          </p>
+          <p>
+            <span class="kw2">Cómo se manifiesta:</span> principalmente por <em>sobrescritura</em> (override)
+            dentro de una jerarquía de herencia. La clase padre define <code>mostrar_datos()</code> y cada
+            hija lo redefine a su manera.
+          </p>
+          <pre><code>for v in [taxi, autobus]:
+    print(v.mostrar_datos())   # mismo metodo, distinto resultado</code></pre>
+          <p>Un método, dos objetos, dos respuestas. Eso es polimorfismo.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ 5. TRANSPORTE ============ -->
+  <section class="sec" id="transporte">
+    <h2 class="sh">El sistema de transporte, funcionando</h2>
+    <p class="intro">
+      Este es el ejercicio largo del examen: una clase padre <code>Vehiculo</code> y dos hijas,
+      <code>Taxi</code> y <code>Autobus</code>. Prueba los botones y observa cómo el mismo método
+      responde distinto en cada objeto.
+    </p>
+
+    <div class="card">
+      <div class="qnum">Demo en vivo</div>
+      <h3 class="ct">Un método, tres respuestas</h3>
+      <div class="tools">
+        <button class="act" type="button" data-demo="datos">mostrar_datos() en los 3</button>
+        <button class="act" type="button" data-demo="viaje">taxi.registrar_viaje(120)</button>
+        <button class="act" type="button" data-demo="viaje2">taxi.registrar_viaje(85)</button>
+        <button class="act" type="button" data-demo="pago">taxi.pago_total()</button>
+        <button class="act" type="button" data-demo="subir">autobus.subir_pasajeros(25)</button>
+        <button class="act" type="button" data-demo="subir2">autobus.subir_pasajeros(20)</button>
+        <button class="act" type="button" data-demo="diag">autobus.diagnostico()</button>
+        <button class="act" type="button" data-demo="reset">Reiniciar</button>
+      </div>
+      <div class="log" id="logBus" aria-live="polite"><span class="dim">Toca un botón para ejecutar el método.</span></div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Solución completa</div>
+      <h3 class="ct">Código de las tres clases</h3>
+      <pre><code>class Vehiculo:
+    def __init__(self, matricula, modelo, potencia):
+        self.__matricula = matricula
+        self.__modelo = modelo
+        self.__potencia = potencia
+
+    # metodos de acceso
+    def get_matricula(self):
+        return self.__matricula
+
+    def get_modelo(self):
+        return self.__modelo
+
+    def get_potencia(self):
+        return self.__potencia
+
+    def mostrar_datos(self):
+        return (f"Matricula: {self.__matricula} | "
+                f"Modelo: {self.__modelo} | Potencia: {self.__potencia} HP")
+
+
+class Taxi(Vehiculo):
+    def __init__(self, matricula, modelo, potencia, numero_licencia):
+        super().__init__(matricula, modelo, potencia)
+        self.__numero_licencia = numero_licencia
+        self.__viajes = []
+
+    def registrar_viaje(self, costo):
+        if costo &lt;= 0:
+            print("Error: el costo debe ser mayor que cero.")
+            return
+        self.__viajes.append(costo)
+        print(f"Viaje registrado: ${costo}")
+
+    def pago_total(self):
+        total = sum(self.__viajes)
+        print(f"Pago total del dia: ${total}")
+
+    def mostrar_datos(self):
+        base = super().mostrar_datos()
+        return f"{base} | Licencia: {self.__numero_licencia}"
+
+
+class Autobus(Vehiculo):
+    def __init__(self, matricula, modelo, potencia, numero_asientos):
+        super().__init__(matricula, modelo, potencia)
+        self.__numero_asientos = numero_asientos
+        self.__pasajeros_actuales = 0
+
+    def subir_pasajeros(self, cantidad):
+        if cantidad &lt;= 0:
+            print("Error: cantidad invalida.")
+            return
+        libres = self.__numero_asientos - self.__pasajeros_actuales
+        if cantidad &gt; libres:
+            print(f"Solo quedaban {libres} asientos. Se subieron {libres}.")
+            self.__pasajeros_actuales = self.__numero_asientos
+        else:
+            self.__pasajeros_actuales += cantidad
+        print(f"A bordo: {self.__pasajeros_actuales}")
+
+    def diagnostico(self):
+        libres = self.__numero_asientos - self.__pasajeros_actuales
+        print(f"A bordo: {self.__pasajeros_actuales} | Libres: {libres}")
+
+    def mostrar_datos(self):
+        base = super().mostrar_datos()
+        return f"{base} | Asientos: {self.__numero_asientos}"</code></pre>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Cómo se usa</div>
+      <pre><code>taxi = Taxi("ABC-123", "Tsuru", 115, "L-9087")
+autobus = Autobus("BUS-45", "Volvo", 280, 40)
+
+taxi.registrar_viaje(120)
+taxi.registrar_viaje(85)
+taxi.pago_total()
+
+autobus.subir_pasajeros(25)
+autobus.diagnostico()
+
+for v in [taxi, autobus]:
+    print(v.mostrar_datos())   # polimorfismo</code></pre>
+      <div class="note good">
+        <strong>Lo que revisan:</strong> atributos privados con <code>__</code>, getters,
+        <code>super()</code> en ambas hijas, validaciones en los métodos propios y
+        <code>mostrar_datos()</code> sobrescrito reutilizando el del padre.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. PORTAFOLIO ============ -->
+  <section class="sec" id="portafolio">
+    <h2 class="sh">Los 5 ejercicios del portafolio</h2>
+    <p class="intro">
+      Estos son los que ya entregaste. Vienen con una corrección ligera: justo abajo de cada uno
+      te marco el detalle que suele costar puntos.
+    </p>
+
+    <div class="card">
+      <div class="qnum">Ejercicio 1</div>
+      <h3 class="ct">Empleado con aumento por edad</h3>
+      <p class="say">Una clase con nombre, apellido, edad y salario. Si el empleado tiene más de 40 años, recibe un aumento.</p>
+      <pre><code>class Empleado:
+    def __init__(self, nombre, apellido, edad, salario):
+        self.nombre = nombre
+        self.apellido = apellido
+        self.edad = edad
+        self.salario = salario
+
+    def aumento(self, monto):
+        if self.edad &gt; 40:
+            self.salario += monto
+            print(f"Nuevo salario de {self.nombre}: ${self.salario}")
+        else:
+            print("Sin aumento del salario")
+
+    def datos(self):
+        print(f"{self.nombre} {self.apellido} - {self.edad} anios - ${self.salario}")
+
+
+def main():
+    empleado1 = Empleado("Enrique", "Meza", 20, 2000)
+    empleado1.edad = 41            # ajuste: ahora ya supera los 40
+    empleado1.aumento(500)
+    empleado1.datos()
+
+    empleado2 = Empleado("Julio", "Preciado", 45, 4500)
+    empleado2.aumento(500)
+    empleado2.datos()
+
+main()</code></pre>
+      <div class="note">
+        <strong>Cuidado:</strong> en la versión original, el <code>else</code> hacía <code>self.salario = 0</code>.
+        Eso borra el sueldo del empleado. Lo correcto es no tocarlo y solo avisar que no hay aumento.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Ejercicio 2</div>
+      <h3 class="ct">Libro, Usuario y LibroDigital</h3>
+      <p class="say">Préstamos con encapsulamiento del ISBN y polimorfismo en <code>disponible()</code>.</p>
+      <pre><code>class Libro:
+    def __init__(self, titulo, autor, isbn):
+        self.titulo = titulo
+        self.autor = autor
+        self.__isbn = isbn        # privado: no cambia
+        self.prestado = False
+
+    @property
+    def isbn(self):
+        return self.__isbn
+
+    def disponible(self):
+        return not self.prestado
+
+
+class LibroDigital(Libro):
+    def disponible(self):         # polimorfismo
+        return True               # un digital siempre esta disponible
+
+
+class Usuario:
+    def __init__(self, nombre):
+        self.nombre = nombre
+        self.libros_prestados = []
+
+    def pedir_prestado(self, libro):
+        if libro.disponible():
+            libro.prestado = True
+            self.libros_prestados.append(libro)
+            print(f"{self.nombre} tomo '{libro.titulo}'")
+        else:
+            print(f"'{libro.titulo}' no esta disponible")
+
+    def devolver(self, libro):
+        if libro in self.libros_prestados:
+            libro.prestado = False
+            self.libros_prestados.remove(libro)
+            print(f"{self.nombre} devolvio '{libro.titulo}'")</code></pre>
+      <div class="note good">
+        <strong>Concepto que demuestra:</strong> <code>@property</code> deja leer el ISBN pero no modificarlo,
+        y <code>LibroDigital</code> cambia el comportamiento de un método heredado.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Ejercicio 3</div>
+      <h3 class="ct">Producto con IVA, @classmethod y @staticmethod</h3>
+      <p class="say">Aquí se demuestra la diferencia entre atributo de clase y atributo de instancia.</p>
+      <pre><code>class Producto:
+    iva = 0.16                        # atributo de CLASE
+
+    def __init__(self, nombre, precio, stock):
+        self.nombre = nombre          # atributos de INSTANCIA
+        self.precio = precio
+        self.stock = stock
+
+    def mostrar(self):
+        print(f"{self.nombre} | ${self.precio} | Stock: {self.stock}")
+
+    def vender(self, cantidad):
+        if cantidad &lt;= self.stock:
+            self.stock -= cantidad
+            print(f"Vendidas {cantidad} de {self.nombre}")
+        else:
+            print(f"Stock insuficiente de {self.nombre}")
+
+    @classmethod
+    def crear_desde_texto(cls, texto):
+        nombre, precio, stock = texto.split(",")
+        return cls(nombre.strip(), float(precio), int(stock))
+
+    @staticmethod
+    def calcular_total(precio, cantidad):
+        return precio * cantidad
+
+
+p1 = Producto("Laptop", 1200.0, 10)
+p2 = Producto("Mouse", 25.0, 50)
+p3 = Producto.crear_desde_texto("Teclado Mecanico, 80.0, 15")
+
+p1.mostrar()
+p2.mostrar()
+p3.mostrar()
+p1.vender(3)
+p1.vender(20)
+
+print(Producto.calcular_total(80.0, 15))
+print(f"IVA compartido: {p1.iva}")
+
+Producto.iva = 0.21
+print(f"Nuevo IVA en p1: {p1.iva}")
+print(f"Nuevo IVA en p3: {p3.iva}")</code></pre>
+      <div class="note">
+        <strong>Cuidado:</strong> en el original quedó <code>p1.mostrar</code> sin paréntesis.
+        Sin <code>()</code> no se ejecuta: solo muestra la referencia al método.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Ejercicio 4</div>
+      <h3 class="ct">CuentaBancaria encapsulada</h3>
+      <p class="say">Saldo privado, validación de montos y transferencia entre cuentas como reto extra.</p>
+      <pre><code>class CuentaBancaria:
+    def __init__(self, titular, numero_cuenta, saldo, tasa_interes):
+        self.titular = titular
+        self.numero_cuenta = numero_cuenta
+        self.__saldo = saldo                  # privado
+        self.tasa_interes = tasa_interes
+
+    def depositar(self, monto):
+        if monto &gt; 0:
+            self.__saldo += monto
+        else:
+            print("Error: el monto debe ser positivo")
+
+    def retirar(self, monto):
+        if monto &lt;= 0:
+            print("Error: el monto debe ser positivo")
+        elif monto &gt; self.__saldo:
+            print("Error: saldo insuficiente")
+        else:
+            self.__saldo -= monto
+
+    def calcular_interes(self):
+        self.__saldo += self.__saldo * self.tasa_interes
+
+    def obtener_saldo(self):                  # getter
+        return self.__saldo
+
+    def transferir(self, destino, monto):
+        if 0 &lt; monto &lt;= self.__saldo:
+            self.__saldo -= monto
+            destino.depositar(monto)
+        else:
+            print("Error: no se puede transferir ese monto")
+
+
+c1 = CuentaBancaria("Enrique", 1, 5000, 0.05)
+c2 = CuentaBancaria("Julio", 2, 2000, 0.03)
+
+c1.depositar(1500)
+c1.retirar(2000)
+print(c1.obtener_saldo())
+
+c2.calcular_interes()
+print(c2.obtener_saldo())
+
+c1.transferir(c2, 1000)
+print(c1.obtener_saldo(), c2.obtener_saldo())</code></pre>
+      <div class="note good">
+        <strong>Lo que demuestra:</strong> nadie puede escribir <code>c1.__saldo</code> desde afuera;
+        todo pasa por <code>depositar()</code>, <code>retirar()</code> y <code>obtener_saldo()</code>.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="qnum">Ejercicio 5</div>
+      <h3 class="ct">Empleado, Vendedor y Gerente</h3>
+      <p class="say">Herencia con dos hijas y un método que se reutiliza con <code>super()</code>.</p>
+      <pre><code>class Empleado:
+    def __init__(self, nombre, sueldo_base):
+        self.nombre = nombre
+        self.sueldo_base = sueldo_base
+
+    def mostrar_datos(self):
+        return f"Nombre: {self.nombre} - Sueldo base: ${self.sueldo_base}"
+
+
+class Vendedor(Empleado):
+    def __init__(self, nombre, sueldo_base, meta_ventas, ventas_realizadas):
+        super().__init__(nombre, sueldo_base)
+        self.meta_ventas = meta_ventas
+        self.ventas_realizadas = ventas_realizadas
+
+    def calcular_pago(self):
+        if self.ventas_realizadas &gt;= self.meta_ventas:
+            bono = self.sueldo_base * 0.10
+            return self.sueldo_base + bono
+        return self.sueldo_base
+
+    def mostrar_datos(self):
+        return (f"{super().mostrar_datos()} - Meta: {self.meta_ventas} - "
+                f"Vendido: {self.ventas_realizadas}")
+
+
+class Gerente(Empleado):
+    def __init__(self, nombre, sueldo_base, departamento, bono_gerencial):
+        super().__init__(nombre, sueldo_base)
+        self.departamento = departamento
+        self.bono_gerencial = bono_gerencial
+
+    def calcular_pago(self):
+        return self.sueldo_base + self.bono_gerencial
+
+    def mostrar_datos(self):
+        return f"{super().mostrar_datos()} - Departamento: {self.departamento}"
+
+
+v1 = Vendedor("Sebastian", 500, 1000, 1100)   # supera la meta: lleva bono
+v2 = Vendedor("Ricardo", 500, 1000, 900)      # no llega: sueldo base
+g1 = Gerente("Julio", 4000, "Ventas", 500)
+
+print(v1.calcular_pago())
+print(v2.calcular_pago())
+print(g1.calcular_pago())
+print(v1.mostrar_datos())</code></pre>
+      <div class="note good">
+        <strong>El patrón:</strong> el padre define <code>mostrar_datos()</code>, cada hija lo amplía con
+        <code>super().mostrar_datos()</code> y agrega lo suyo. Igual que en el examen.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. QUIZ ============ -->
+  <section class="sec" id="quiz">
+    <h2 class="sh">Ponte a prueba</h2>
+    <p class="intro">8 preguntas, las mismas ideas del examen. Al final te digo en qué fallaste.</p>
+
+    <div class="card" id="quizCard">
+      <div class="segs" id="quizSegs" aria-hidden="true"></div>
+      <div id="quizBody"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  function el(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  /* ---------- navegación por pasos ---------- */
+  document.querySelectorAll(".steps button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var target = el(b.getAttribute("data-go"));
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  /* ---------- pestañas de pilares ---------- */
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) {
+        t.setAttribute("aria-selected", "false");
+        var p = el("p-" + t.getAttribute("data-tab"));
+        if (p) p.hidden = true;
+      });
+      tab.setAttribute("aria-selected", "true");
+      var panel = el("p-" + tab.getAttribute("data-tab"));
+      if (panel) panel.hidden = false;
+    });
+  });
+
+  /* ---------- demo: clase y objeto ---------- */
+  var nombres = ["Ana", "Luis", "Sofía", "Diego", "Valeria", "Emilio"];
+  var creados = 0;
+
+  function crearObjeto() {
+    var lista = el("objList");
+    if (creados === 0) lista.innerHTML = "";
+    var nombre = nombres[creados % nombres.length];
+    var matricula = "2026" + String(creados + 1).padStart(3, "0");
+    var div = document.createElement("div");
+    div.className = "obj";
+    div.innerHTML =
+      '<b>Alumno "' + esc(nombre) + '"</b>' +
+      '<span class="kv">nombre = "' + esc(nombre) + '"</span>' +
+      '<span class="kv">matricula = "' + matricula + '"</span>' +
+      '<span class="mth">saludar() → "Hola, soy ' + esc(nombre) + '"</span>';
+    lista.appendChild(div);
+    creados += 1;
+    el("objCount").textContent = creados + (creados === 1 ? " objeto creado" : " objetos creados");
+  }
+
+  el("crearObj").addEventListener("click", crearObjeto);
+  el("resetObj").addEventListener("click", function () {
+    creados = 0;
+    el("objList").innerHTML = '<span class="empty">Todavía no hay objetos. Toca el botón para crear el primero.</span>';
+    el("objCount").textContent = "0 objetos creados";
+  });
+
+  /* ---------- demo: super() ---------- */
+  var logSuper = el("logSuper");
+
+  function pintarSuper(lineas) {
+    logSuper.innerHTML = lineas.map(function (l) {
+      return '<span class="' + (l[0] || "") + '">' + esc(l[1]) + "</span>";
+    }).join("\n");
+  }
+
+  el("btnCon").addEventListener("click", function () {
+    pintarSuper([
+      ["dim", "Taxi.__init__() → super().__init__(...) primero"],
+      ["good", "✔ Vehiculo.__init__() inicializó los 3 atributos heredados"],
+      ["good", "✔ Luego se creó el atributo propio: licencia"],
+      ["", ""],
+      ["", "Matrícula: ABC-123 | Modelo: Tsuru | Potencia: 115 HP | Licencia: L-9087"]
+    ]);
+  });
+
+  el("btnSin").addEventListener("click", function () {
+    pintarSuper([
+      ["dim", "Taxi.__init__() → NO se llamó a super()"],
+      ["bad", "✘ Los atributos matricula, modelo y potencia nunca se crearon"],
+      ["bad", "✘ Al usarlos en mostrar_datos() el programa truena"],
+      ["", ""],
+      ["bad", "AttributeError: 'Taxi' object has no attribute '_Vehiculo__matricula'"]
+    ]);
+  });
+
+  el("btnLimpiar").addEventListener("click", function () {
+    logSuper.innerHTML = '<span class="dim">Toca un botón para ver el resultado.</span>';
+  });
+
+  /* ---------- demo: sistema de transporte ---------- */
+  function Vehiculo(matricula, modelo, potencia) {
+    this._matricula = matricula;
+    this._modelo = modelo;
+    this._potencia = potencia;
+  }
+  Vehiculo.prototype.mostrar_datos = function () {
+    return "Matrícula: " + this._matricula + " | Modelo: " + this._modelo +
+           " | Potencia: " + this._potencia + " HP";
+  };
+
+  function Taxi(matricula, modelo, potencia, licencia) {
+    Vehiculo.call(this, matricula, modelo, potencia);
+    this._licencia = licencia;
+    this._viajes = [];
+  }
+  Taxi.prototype = Object.create(Vehiculo.prototype);
+  Taxi.prototype.constructor = Taxi;
+  Taxi.prototype.registrar_viaje = function (costo) {
+    if (costo <= 0) return "Error: el costo debe ser mayor que cero.";
+    this._viajes.push(costo);
+    return "Viaje registrado: $" + costo + "  (viajes: " + this._viajes.length + ")";
+  };
+  Taxi.prototype.pago_total = function () {
+    var total = this._viajes.reduce(function (a, b) { return a + b; }, 0);
+    return "Pago total del día: $" + total + "  (" + this._viajes.length + " viajes)";
+  };
+  Taxi.prototype.mostrar_datos = function () {
+    return Vehiculo.prototype.mostrar_datos.call(this) + " | Licencia: " + this._licencia;
+  };
+
+  function Autobus(matricula, modelo, potencia, asientos) {
+    Vehiculo.call(this, matricula, modelo, potencia);
+    this._asientos = asientos;
+    this._pasajeros = 0;
+  }
+  Autobus.prototype = Object.create(Vehiculo.prototype);
+  Autobus.prototype.constructor = Autobus;
+  Autobus.prototype.subir_pasajeros = function (cantidad) {
+    if (cantidad <= 0) return "Error: cantidad inválida.";
+    var libres = this._asientos - this._pasajeros;
+    if (cantidad > libres) {
+      this._pasajeros = this._asientos;
+      return "Solo quedaban " + libres + " asientos. Se subieron " + libres +
+             ". A bordo: " + this._pasajeros + "/" + this._asientos;
+    }
+    this._pasajeros += cantidad;
+    return "Subieron " + cantidad + ". A bordo: " + this._pasajeros + "/" + this._asientos;
+  };
+  Autobus.prototype.diagnostico = function () {
+    var libres = this._asientos - this._pasajeros;
+    return "A bordo: " + this._pasajeros + " | Asientos libres: " + libres;
+  };
+  Autobus.prototype.mostrar_datos = function () {
+    return Vehiculo.prototype.mostrar_datos.call(this) + " | Asientos: " + this._asientos;
+  };
+
+  var taxi, autobus, logBus = el("logBus");
+
+  function reiniciarBus() {
+    taxi = new Taxi("ABC-123", "Tsuru", 115, "L-9087");
+    autobus = new Autobus("BUS-45", "Volvo", 280, 40);
+  }
+  reiniciarBus();
+
+  function escribirBus(texto, cls) {
+    logBus.innerHTML = '<span class="' + (cls || "") + '">' + esc(texto) + "</span>";
+  }
+
+  document.querySelectorAll("[data-demo]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var accion = b.getAttribute("data-demo");
+      if (accion === "datos") {
+        var lineas = [
+          ["dim", "for v in [taxi, autobus]: print(v.mostrar_datos())"],
+          ["", ""],
+          ["good", "→ " + taxi.mostrar_datos()],
+          ["good", "→ " + autobus.mostrar_datos()]
+        ];
+        logBus.innerHTML = lineas.map(function (l) {
+          return '<span class="' + l[0] + '">' + esc(l[1]) + "</span>";
+        }).join("\n");
+        return;
+      }
+      var salida;
+      if (accion === "viaje") salida = taxi.registrar_viaje(120);
+      else if (accion === "viaje2") salida = taxi.registrar_viaje(85);
+      else if (accion === "pago") salida = taxi.pago_total();
+      else if (accion === "subir") salida = autobus.subir_pasajeros(25);
+      else if (accion === "subir2") salida = autobus.subir_pasajeros(20);
+      else if (accion === "diag") salida = autobus.diagnostico();
+      else if (accion === "reset") {
+        reiniciarBus();
+        escribirBus("Objetos reiniciados: taxi con 0 viajes y autobús con 0 pasajeros.", "dim");
+        return;
+      }
+      escribirBus(salida, "good");
+    });
+  });
+
+  /* ---------- quiz ---------- */
+  var PREGUNTAS = [
+    {
+      q: "¿Qué es la programación orientada a objetos?",
+      opts: [
+        "Un lenguaje de programación nuevo",
+        "Un paradigma que organiza el código en objetos con datos y comportamiento",
+        "Una base de datos para guardar clases",
+        "Una forma de escribir HTML más rápido"
+      ],
+      ok: 1,
+      why: "La POO es un paradigma: los objetos juntan atributos (datos) y métodos (comportamiento)."
+    },
+    {
+      q: "¿Cuál de estos NO es un pilar de la POO?",
+      opts: [
+        "Herencia",
+        "Polimorfismo",
+        "Compilación",
+        "Encapsulamiento"
+      ],
+      ok: 2,
+      why: "Los pilares son abstracción, encapsulamiento, herencia y polimorfismo. Compilar es un paso del lenguaje, no un pilar."
+    },
+    {
+      q: "¿Cuál es la diferencia correcta entre clase y objeto?",
+      opts: [
+        "La clase es la instancia y el objeto es el molde",
+        "Son exactamente lo mismo",
+        "La clase guarda métodos y el objeto no puede tener datos",
+        "La clase es el molde y el objeto es una instancia creada de ese molde"
+      ],
+      ok: 3,
+      why: "La clase define la estructura; el objeto existe en memoria con sus propios valores."
+    },
+    {
+      q: "¿Cuál es la diferencia de rol entre atributo y método?",
+      opts: [
+        "El atributo guarda el estado y el método define el comportamiento",
+        "El atributo ejecuta acciones y el método guarda datos",
+        "Los dos guardan datos",
+        "Los dos son funciones"
+      ],
+      ok: 0,
+      why: "Atributo = sustantivo (qué es o qué tiene). Método = verbo (qué hace)."
+    },
+    {
+      q: "¿Para qué sirve super().__init__() dentro de una subclase?",
+      opts: [
+        "Para crear un objeto nuevo desde cero",
+        "Para ejecutar el constructor del padre e inicializar los atributos heredados",
+        "Para borrar los atributos del padre",
+        "Para importar una librería"
+      ],
+      ok: 1,
+      why: "Llama al constructor de la clase padre desde la hija, sin repetir código."
+    },
+    {
+      q: "Si omites super().__init__() en la subclase, ¿qué ocurre?",
+      opts: [
+        "Python llama solo al padre, no pasa nada",
+        "La clase no se puede definir",
+        "Los atributos heredados no se inicializan y al usarlos da AttributeError",
+        "Se borran los atributos de la subclase"
+      ],
+      ok: 2,
+      why: "En Python la llamada no es automática: si no la haces, el constructor del padre nunca corre."
+    },
+    {
+      q: "El polimorfismo se manifiesta cuando…",
+      opts: [
+        "Se declaran muchas variables en el mismo archivo",
+        "Se usan muchos if y else",
+        "Una clase hereda de otras dos a la vez",
+        "El mismo método se comporta distinto según el objeto que lo ejecuta"
+      ],
+      ok: 3,
+      why: "Mismo nombre de método, comportamiento distinto. Normalmente por sobrescritura en la herencia."
+    },
+    {
+      q: "En class Taxi(Vehiculo), ¿qué relación existe?",
+      opts: [
+        "Taxi hereda de Vehiculo: un taxi es un vehículo",
+        "Vehiculo hereda de Taxi",
+        "Taxi contiene un objeto Vehiculo por dentro",
+        "No hay ninguna relación entre las dos"
+      ],
+      ok: 0,
+      why: "Los paréntesis indican herencia: Taxi es la clase hija y recibe todo lo de Vehiculo."
+    }
+  ];
+
+  var LETRAS = ["A", "B", "C", "D"];
+  var estado = { i: 0, aciertos: 0, log: [] };
+
+  function pintarSegs() {
+    var cont = el("quizSegs");
+    cont.style.setProperty("--n", PREGUNTAS.length);
+    var html = "";
+    for (var k = 0; k < PREGUNTAS.length; k++) {
+      var cls = "";
+      if (k < estado.log.length) cls = estado.log[k] ? " ok" : " no";
+      else if (k === estado.i) cls = " now";
+      html += '<span class="seg' + cls + '"></span>';
+    }
+    cont.innerHTML = html;
+  }
+
+  function renderPregunta() {
+    pintarSegs();
+    var n = estado.i;
+    var p = PREGUNTAS[n];
+    var html = "";
+    html += '<div class="qnum">Pregunta ' + (n + 1) + " de " + PREGUNTAS.length + "</div>";
+    html += '<h3 class="ct">' + esc(p.q) + "</h3>";
+    html += '<div class="opts">';
+    for (var j = 0; j < p.opts.length; j++) {
+      html += '<button type="button" class="opt" data-opt="' + j + '">' +
+              '<span class="key">' + LETRAS[j] + "</span>" +
+              '<span class="txt">' + esc(p.opts[j]) + "</span></button>";
+    }
+    html += "</div>";
+    html += '<div id="quizFeedback"></div>';
+    el("quizBody").innerHTML = html;
+
+    el("quizBody").querySelectorAll("[data-opt]").forEach(function (b) {
+      b.addEventListener("click", function () { responder(parseInt(b.getAttribute("data-opt"), 10)); });
+    });
+  }
+
+  function responder(elegida) {
+    var p = PREGUNTAS[estado.i];
+    var botones = el("quizBody").querySelectorAll("[data-opt]");
+    var acierto = elegida === p.ok;
+
+    botones.forEach(function (b) {
+      var idx = parseInt(b.getAttribute("data-opt"), 10);
+      b.disabled = true;
+      if (idx === p.ok) b.classList.add("good");
+      else if (idx === elegida) b.classList.add("bad");
+    });
+
+    estado.log.push(acierto);
+    if (acierto) estado.aciertos += 1;
+    pintarSegs();
+
+    var ultima = estado.i === PREGUNTAS.length - 1;
+    el("quizFeedback").innerHTML =
+      '<div class="why ' + (acierto ? "good" : "bad") + '">' +
+      "<strong>" + (acierto ? "Correcto" : "Casi") + "</strong>" +
+      esc(p.why) + "</div>" +
+      '<div class="row" style="margin-top:14px">' +
+      '<button type="button" class="btn" id="quizNext">' +
+      (ultima ? "Ver resultado" : "Siguiente") + "</button></div>";
+
+    el("quizNext").addEventListener("click", function () {
+      estado.i += 1;
+      if (estado.i >= PREGUNTAS.length) renderResultado();
+      else renderPregunta();
+    });
+  }
+
+  function renderResultado() {
+    el("quizSegs").innerHTML = "";
+    var total = PREGUNTAS.length;
+    var pct = Math.round((estado.aciertos / total) * 100);
+    var mensaje;
+    if (pct === 100) mensaje = "Perfecto. Ya puedes entrar tranquilo al examen.";
+    else if (pct >= 75) mensaje = "Muy bien. Repasa solo lo que fallaste y listo.";
+    else if (pct >= 50) mensaje = "Vas por buen camino, pero todavía hay huecos. Vuelve a las secciones 1 a 3.";
+    else mensaje = "Tranquilo: esto se aprende repitiendo. Lee otra vez los pilares y el tema de super().";
+
+    var html = "";
+    html += '<div class="qnum">Resultado</div>';
+    html += '<p class="score">' + estado.aciertos + '<small>/' + total + "</small></p>";
+    html += '<p class="say">' + esc(mensaje) + "</p>";
+
+    var fallos = [];
+    for (var k = 0; k < estado.log.length; k++) {
+      if (!estado.log[k]) fallos.push(k + 1);
+    }
+    if (fallos.length) {
+      html += '<div class="hint"><strong>Repasa las preguntas: </strong>' + fallos.join(", ") + "</div>";
+    }
+    html += '<div class="row" style="margin-top:6px">' +
+            '<button type="button" class="btn" id="quizAgain">Intentar de nuevo</button></div>';
+    el("quizBody").innerHTML = html;
+
+    el("quizAgain").addEventListener("click", function () {
+      estado = { i: 0, aciertos: 0, log: [] };
+      renderPregunta();
+    });
+  }
+
+  renderPregunta();
+})();
+</script>
+
+</body>
+</html>
