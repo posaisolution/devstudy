@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guía Cálculo Integral · Parcial 2</title>
+<style>
+img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
+:root{--bg:#f6f7fb;--card:#fff;--fg:#1b1f2a;--mut:#5c6578;--acc:#4f46e5;--acc2:#0ea5e9;--bd:#e2e6f0;--board:#f9faff;--hl:#eef0ff;--ok:#15803d;--okbg:#e8f6ee;--warn:#b45309;--warnbg:#fff4e0;color-scheme:light dark}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1016;--card:#151a23;--fg:#e8ebf2;--mut:#9aa4b8;--acc:#8e96ff;--acc2:#4cc2ff;--bd:#263042;--board:#10151d;--hl:#1c2240;--ok:#4cc38a;--okbg:#10261c;--warn:#f5b455;--warnbg:#2a2113}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+header.top{padding:calc(14px + env(safe-area-inset-top)) 16px 0;max-width:860px;margin:0 auto}
+.brand{font-weight:700;color:var(--acc);letter-spacing:.3px}
+.brand small{color:var(--mut);font-weight:500;margin-left:6px}
+nav.nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--bd);margin-top:10px}
+nav.nav div{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;overflow-x:auto}
+nav.nav a{white-space:nowrap;text-decoration:none;color:var(--fg);border:1px solid var(--bd);background:var(--card);padding:5px 12px;border-radius:99px;font-size:.88rem}
+nav.nav a b{color:var(--acc);margin-right:4px}
+main{max-width:860px;margin:0 auto;padding:0 16px 48px}
+.hero{padding:26px 0 8px}
+.hero .kick{color:var(--acc2);font-weight:600;font-size:.9rem}
+.hero h1{font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.15;margin:4px 0 10px}
+.hero p{color:var(--mut);max-width:62ch;margin:0}
+section{margin-top:40px}
+.tag{display:inline-block;background:var(--hl);color:var(--acc);font-weight:600;font-size:.8rem;padding:2px 10px;border-radius:99px}
+h2{font-size:1.6rem;margin:8px 0 12px}
+h3{font-size:1.05rem;margin:0 0 8px}
+h3.sub{margin:26px 0 10px;font-size:1.15rem}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:12px 0}
+.idea{border-left:5px solid var(--acc)}
+.idea p{margin:0}
+.steps3{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.steps3 .card{margin:0}
+ol.recipe{margin:0;padding-left:0;list-style:none;counter-reset:s}
+ol.recipe li{counter-increment:s;position:relative;padding:6px 0 6px 40px;overflow-x:auto}
+ol.recipe li::before{content:counter(s);position:absolute;left:0;top:6px;width:28px;height:28px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.ex .exhead{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.badge{background:var(--acc);color:#fff;border-radius:8px;padding:2px 10px;font-weight:700;font-size:.85rem}
+.prob{margin:0;overflow-x:auto;flex:1;min-width:0}
+.teacher{display:flex;gap:10px;align-items:flex-start;margin:14px 0 10px}
+.av{font-size:2rem;line-height:1;flex:none;background:var(--hl);border-radius:50%;width:48px;height:48px;display:grid;place-items:center}
+.bubble{position:relative;background:var(--hl);border-radius:14px;padding:10px 14px;flex:1;min-height:48px}
+.bubble::before{content:"";position:absolute;left:-7px;top:16px;border:7px solid transparent;border-left:0;border-right-color:var(--hl)}
+.bubble.pop{animation:pop .45s ease}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.board{background:var(--board);border:1px dashed var(--bd);border-radius:12px;padding:8px 10px;min-height:56px}
+.line{display:flex;gap:10px;align-items:center;padding:2px 6px;border-radius:8px;opacity:.62;transition:opacity .3s}
+.line .n{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--acc);color:var(--acc);display:grid;place-items:center;font-size:.75rem;font-weight:700}
+.line .m{flex:1;min-width:0;overflow-x:auto;overflow-y:hidden}
+.line .m mjx-container{margin:4px 0!important}
+.line.new{opacity:1;background:var(--hl);animation:slide .55s ease}
+@keyframes slide{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.b{font:inherit;font-size:.9rem;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:10px;padding:8px 12px;cursor:pointer}
+.b.primary{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.b:disabled{opacity:.4;cursor:not-allowed}
+.cnt{color:var(--mut);font-size:.85rem;margin-left:auto}
+.bar{flex-basis:100%;height:6px;border-radius:9px;background:var(--bd);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .4s}
+.practice{border-left:5px solid var(--ok)}
+details{margin:8px 0;background:var(--okbg);border-radius:10px;padding:8px 12px}
+summary{cursor:pointer;font-weight:600;color:var(--ok)}
+details p{margin:8px 0 2px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:left;vertical-align:top}
+.tw{overflow-x:auto}
+canvas{width:100%;height:auto;border-radius:10px;background:var(--board);border:1px solid var(--bd)}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.rout{margin:6px 0 0;font-size:.95rem}
+.warn{background:var(--warnbg);border-left:5px solid var(--warn)}
+.warn ul{margin:0;padding-left:20px}
+.warn li{margin:4px 0}
+.ing{margin:0;padding-left:20px}.ing li{margin:5px 0}
+ol.recipe details.why{background:var(--hl);margin:6px 0 0;padding:4px 10px}
+ol.recipe details.why summary{color:var(--acc);font-size:.88rem}
+ol.recipe details.why p{margin:6px 0 4px;font-size:.93rem}
+.care{margin-top:6px;background:var(--warnbg);border-left:4px solid var(--warn);border-radius:8px;padding:6px 10px;font-size:.9rem}
+.mnemo{border-left:5px solid var(--acc2);font-weight:600}
+.gq{font-weight:600;margin:6px 0 10px;overflow-x:auto}.gpfb{margin-top:10px}.cnt2{color:var(--mut);font-size:.85rem;margin:8px 0 0}
+.opts .b{overflow-x:auto}.gpok{background:var(--okbg);border-radius:10px;padding:12px;overflow-x:auto}
+.det{display:grid;gap:8px}.det .b{text-align:left}
+.detres{margin-top:10px;background:var(--hl);border-radius:10px;padding:10px 14px;display:none}
+.detres.on{display:block;animation:pop .45s ease}
+footer{text-align:center;color:var(--mut);font-size:.85rem;padding:24px 16px}
+@media print{nav.nav{display:none}.card{break-inside:avoid}}
+</style>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},
+startup:{pageReady:function(){return MathJax.startup.defaultPageReady().then(function(){window.mjReady=true;});}}};
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="../index.html" style="text-decoration:none">DevStudy<small>Cuatrimestre 3 · Cálculo Integral</small></a></header>
+<nav class="nav"><div>
+<a href="#guia"><b>0</b>Cómo usarla</a><a href="#fracciones"><b>1</b>Fracciones parciales</a><a href="#trig"><b>2</b>Sust. trigonométrica</a><a href="#areas"><b>3</b>Áreas</a><a href="#riemann"><b>4</b>Riemann</a><a href="#errores"><b>5</b>Errores comunes</a>
+</div></nav>
+<main>
+<div class="hero">
+<div class="kick">Segundo parcial · Cálculo Integral</div>
+<h1>Aprende a resolver integrales, como una receta</h1>
+<p>Cada tema tiene una idea sencilla, una receta de pasos y ejemplos resueltos donde un profesor te explica qué hacer en cada paso. Al final de cada tema hay un ejercicio para que lo intentes tú.</p>
+</div>
+
+<section id="guia">
+<span class="tag">Antes de empezar</span>
+<h2>Cómo usar esta guía</h2>
+<div class="steps3">
+<div class="card"><h3>1. Lee la idea</h3>Una explicación corta, sin palabras difíciles.</div>
+<div class="card"><h3>2. Mira el ejemplo</h3>Toca <b>Siguiente paso</b> y el profesor escribe y explica cada línea. También hay botón <b>Auto</b>.</div>
+<div class="card"><h3>3. Inténtalo tú</h3>En «Ahora tú» resuelve en tu cuaderno y luego revisa la respuesta.</div>
+</div>
+</section>
+
+<section id="detector">
+<span class="tag">Antes de resolver</span>
+<h2>🔎 Detector de método</h2>
+<div class="card"><p style="margin:0 0 10px">En el examen pasado se equivocó de método. Antes de empezar, toca lo que ves en la integral y te digo qué receta usar.</p>
+<div class="det" id="det"></div><div class="detres" id="detres"></div></div>
+</section>
+<div id="topics"></div>
+
+<section id="errores">
+<span class="tag">Para no perder puntos</span>
+<h2>Errores comunes</h2>
+<div class="card warn"><ul>
+<li><b>Elegir mal el método.</b> Antes de empezar, escribe cuál vas a usar y por qué.</li>
+<li><b>Riemann:</b> escribe siempre el límite \(\lim_{n\to\infty}\) y el símbolo de suma \(\sum\).</li>
+<li><b>Áreas:</b> siempre es «arriba menos abajo», con paréntesis. Restar un negativo es sumar.</li>
+<li><b>Logaritmos:</b> en \(\ln|x+5|\) va valor absoluto. En \(\ln(x^2+5)\) no hace falta.</li>
+<li><b>Sust. trigonométrica:</b> no te quedes en θ. Dibuja el triángulo y regresa a x.</li>
+<li><b>Fracciones parciales:</b> si el factor es cuadrático, arriba va \(Bx+C\), no solo un número.</li>
+<li><b>Escribe los pasos.</b> El examen dice que no se aceptan respuestas directas.</li>
+<li><b>Termina con + C</b> en las integrales indefinidas y con unidades (\(u^2\)) en las áreas.</li>
+</ul></div>
+</section>
+</main>
+<footer>Guía de estudio · Cálculo Integral · Segundo parcial</footer>
+
+<script>
+const r=String.raw;
+const T=[
+{id:'riemann',emoji:'📦',title:'Suma de Riemann',
+idea:r`Imagina que quieres saber cuánto espacio ocupa una figura curva. No tienes fórmula, así que la rellenas con cajitas rectangulares delgadas, mides cada una y las sumas. Mientras más cajitas (y más delgaditas), más exacto el resultado. Con infinitas cajitas ya no es aproximado: es la integral.`,
+extra:'riemann',
+recipe:[
+r`Ancho de cada cajita: \(\Delta x=\dfrac{b-a}{n}\).`,
+r`Borde derecho de cada cajita: \(x_i=a+i\,\Delta x\).`,
+r`Altura de la cajita: \(f(x_i)\).`,
+r`Área de una cajita = altura × ancho. Luego suma todas: \(\sum_{i=1}^{n} f(x_i)\,\Delta x\).`,
+r`Usa las fórmulas de sumas: \(\sum 1=n\), \(\sum i=\dfrac{n(n+1)}{2}\), \(\sum i^2=\dfrac{n(n+1)(2n+1)}{6}\), \(\sum i^3=\left[\dfrac{n(n+1)}{2}\right]^2\).`,
+r`Pon infinitas cajitas, \(n\to\infty\): todo lo que tenga n abajo se vuelve cero.`],
+examples:[
+{problem:r`\(\displaystyle\int_0^2 x^2\,dx\) usando la definición con sumas de Riemann`,steps:[
+{say:r`Primero, ¿qué tan anchas son las cajitas? Dividimos la distancia total entre las n cajitas.`,m:r`a=0,\ b=2,\qquad \Delta x=\dfrac{b-a}{n}=\dfrac{2}{n}`},
+{say:r`¿Dónde termina cada cajita? Empezamos en a y vamos sumando un ancho por cada cajita (i = 1, 2, 3…).`,m:r`x_i=a+i\,\Delta x=\dfrac{2i}{n}`},
+{say:r`La altura de cada cajita sale de meter \(x_i\) en la función.`,m:r`f(x_i)=\left(\dfrac{2i}{n}\right)^2=\dfrac{4i^2}{n^2}`},
+{say:r`El área de una cajita es altura por ancho. Multiplicamos.`,m:r`f(x_i)\,\Delta x=\dfrac{4i^2}{n^2}\cdot\dfrac2n=\dfrac{8i^2}{n^3}`},
+{say:r`Sumamos todas las cajitas. Lo que no tiene i sale de la suma, y usamos la fórmula de la suma de cuadrados.`,m:r`\sum_{i=1}^{n}\dfrac{8i^2}{n^3}=\dfrac{8}{n^3}\cdot\dfrac{n(n+1)(2n+1)}{6}`},
+{say:r`Simplificamos: una n de arriba se va con una de abajo, y 8 entre 6 queda 4 entre 3.`,m:r`=\dfrac43\cdot\dfrac{(n+1)(2n+1)}{n^2}=\dfrac43\left(2+\dfrac3n+\dfrac1{n^2}\right)`},
+{say:r`Ahora ponemos infinitas cajitas. Las fracciones con n abajo se hacen casi cero. Comprobación: \(\frac{x^3}{3}\) de 0 a 2 también da \(\frac83\). ¡Listo! 🎉`,m:r`\lim_{n\to\infty}\dfrac43\left(2+\dfrac3n+\dfrac1{n^2}\right)=\dfrac43\cdot2=\dfrac83`}]},
+{problem:r`\(\displaystyle\int_1^3 (2x+1)\,dx\) usando la definición con sumas de Riemann`,steps:[
+{say:r`Ahora empezamos en 1, no en 0, así que el ancho usa \(b-a=3-1=2\).`,m:r`a=1,\ b=3,\qquad \Delta x=\dfrac2n`},
+{say:r`El borde derecho: partimos de 1 y sumamos anchos.`,m:r`x_i=1+\dfrac{2i}{n}`},
+{say:r`Metemos \(x_i\) en \(2x+1\) y juntamos los números.`,m:r`f(x_i)=2\left(1+\dfrac{2i}{n}\right)+1=3+\dfrac{4i}{n}`},
+{say:r`Multiplicamos por el ancho, repartiendo bien.`,m:r`f(x_i)\,\Delta x=\left(3+\dfrac{4i}{n}\right)\dfrac2n=\dfrac6n+\dfrac{8i}{n^2}`},
+{say:r`Sumamos. Sumar \(\frac6n\) un total de n veces da 6. Y la suma de los i usa la fórmula \(\frac{n(n+1)}{2}\).`,m:r`\sum_{i=1}^{n}\left(\dfrac6n+\dfrac{8i}{n^2}\right)=6+\dfrac{8}{n^2}\cdot\dfrac{n(n+1)}{2}=6+\dfrac{4(n+1)}{n}`},
+{say:r`Infinitas cajitas: \(\frac{4(n+1)}{n}\) es \(4+\frac4n\), y el \(\frac4n\) desaparece. Comprobación: \(x^2+x\) de 1 a 3 es 12 − 2 = 10. ✅`,m:r`\lim_{n\to\infty}\left(6+4+\dfrac4n\right)=10`}]}],
+practice:{problem:r`Calcula \(\displaystyle\int_0^3 (x+1)\,dx\) con sumas de Riemann.`,hint:r`\(\Delta x=\dfrac3n\), \(x_i=\dfrac{3i}{n}\), \(f(x_i)=\dfrac{3i}{n}+1\). Multiplica por \(\dfrac3n\) y suma.`,answer:r`\(\displaystyle\sum\left(\dfrac{9i}{n^2}+\dfrac3n\right)=\dfrac92\cdot\dfrac{n+1}{n}+3\;\to\;\dfrac92+3=\dfrac{15}{2}\)`}},
+
+{id:'areas',emoji:'🍰',title:'Áreas entre curvas',
+idea:r`Dos caminos curvos forman una «rebanada» entre ellos. Para medirla, mides todo lo que hay debajo del camino de arriba y le quitas lo que hay debajo del de abajo. Por eso la regla es siempre: <b>arriba menos abajo</b>.`,
+recipe:[
+r`Iguala las funciones para saber dónde se cruzan. Esos son los límites \(a\) y \(b\).`,
+r`Prueba un número entre \(a\) y \(b\) para saber cuál va arriba.`,
+r`Plantea \(A=\displaystyle\int_a^b(\text{arriba}-\text{abajo})\,dx\), con paréntesis.`,
+r`Integra y evalúa: primero \(b\), luego \(a\), y restas.`,
+r`Escribe las unidades: \(u^2\).`,
+r`Si las curvas se cruzan en medio (como \(y=x^3\) y \(y=x\)), parte la región en pedazos.`,
+r`Si vienen como \(x=\dots\), es igual pero con \(dy\): derecha menos izquierda.`],
+examples:[
+{problem:r`Área entre \(y=x\) y \(y=x^2\)`,steps:[
+{say:r`¿Dónde se encuentran las dos curvas? Es como ver en qué puntos se cruzan dos caminos. Para saberlo las igualamos.`,m:r`x=x^2`},
+{say:r`Pasamos todo a un lado y sacamos factor común. Si un producto da cero, alguno de los dos es cero.`,m:r`x^2-x=0\;\Rightarrow\;x(x-1)=0\;\Rightarrow\;x=0,\ x=1`},
+{say:r`Esos son los límites de la integral. Ahora, ¿cuál va arriba? Probamos un número en medio, como 0.5.`,m:r`x=0.5:\quad y=x\to0.5,\qquad y=x^2\to0.25`},
+{say:r`0.5 es mayor que 0.25, así que \(y=x\) va arriba. Planteamos arriba menos abajo.`,m:r`A=\int_0^1\left(x-x^2\right)dx`},
+{say:r`Integramos: al exponente le sumamos 1 y dividimos entre el nuevo exponente.`,m:r`A=\left[\dfrac{x^2}{2}-\dfrac{x^3}{3}\right]_0^1`},
+{say:r`Metemos el 1 y luego el 0, y restamos. Con el 0 todo se hace cero.`,m:r`A=\left(\dfrac12-\dfrac13\right)-0=\dfrac36-\dfrac26=\dfrac16`},
+{say:r`Es un área, así que no olvides las unidades cuadradas. ¡Listo! 🎉`,m:r`A=\dfrac16\ u^2`}]},
+{problem:r`Área entre \(y=x^2\) y \(y=x+2\)`,steps:[
+{say:r`Igualamos para encontrar dónde se cruzan.`,m:r`x^2=x+2`},
+{say:r`Todo a un lado y factorizamos. Buscamos dos números que multiplicados den −2 y sumados den −1.`,m:r`x^2-x-2=0\;\Rightarrow\;(x-2)(x+1)=0\;\Rightarrow\;x=-1,\ x=2`},
+{say:r`Probamos el 0, que está en medio de −1 y 2.`,m:r`x=0:\quad y=x^2\to0,\qquad y=x+2\to2`},
+{say:r`La recta va arriba. Ojo con el paréntesis: el signo menos afecta a toda la curva de abajo.`,m:r`A=\int_{-1}^{2}\left[(x+2)-x^2\right]dx`},
+{say:r`Integramos cada pedazo.`,m:r`A=\left[\dfrac{x^2}{2}+2x-\dfrac{x^3}{3}\right]_{-1}^{2}`},
+{say:r`Evaluamos el 2 y luego el −1, y restamos.`,m:r`\left(2+4-\dfrac83\right)-\left(\dfrac12-2+\dfrac13\right)=\dfrac{10}{3}-\left(-\dfrac76\right)`},
+{say:r`Restar un negativo es sumar. Aquí es donde más se equivocan, ¡cuidado! 🎉`,m:r`=\dfrac{20}{6}+\dfrac76=\dfrac{27}{6}=\dfrac92\ u^2`}]}],
+practice:{problem:r`Calcula el área entre \(y=x^2+1\) y \(y=2x+4\).`,hint:r`Iguala \(x^2+1=2x+4\). Las raíces son −1 y 3. Prueba x = 0: la recta va arriba.`,answer:r`\(A=\displaystyle\int_{-1}^{3}(-x^2+2x+3)\,dx=\left[-\dfrac{x^3}{3}+x^2+3x\right]_{-1}^{3}=\dfrac{32}{3}\ u^2\)`}},
+
+{id:'trig',emoji:'🎭',title:'Sustitución trigonométrica',
+idea:r`Las raíces como \(\sqrt{9-x^2}\) estorban. El truco es ponerles un <b>disfraz de triángulo</b>: con un triángulo rectángulo, la raíz se convierte en un lado normal y el problema se acaba. Al final le quitas el disfraz y regresas a x.`,
+extra:'trig',
+recipe:[
+r`Mira la forma de la raíz y elige el disfraz de la tabla.`,
+r`Calcula \(dx\) derivando el disfraz.`,
+r`Mete el disfraz en la raíz y simplifica con \(\sin^2\theta+\cos^2\theta=1\) o con \(\sec^2\theta-1=\tan^2\theta\).`,
+r`Sustituye todo en la integral, simplifica e integra en θ.`,
+r`Dibuja el triángulo para regresar a x.`,
+r`Escribe el resultado en x y no olvides + C.`],
+examples:[
+{problem:r`\(\displaystyle\int\dfrac{dx}{\sqrt{9-x^2}}\)`,steps:[
+{say:r`Veo una raíz de «número menos x al cuadrado». Esa es la señal para usar <b>seno</b>. Como \(9=3^2\), el número a es 3.`,m:r`\sqrt{9-x^2}\;\Rightarrow\;x=3\sin\theta`},
+{say:r`Si cambiamos x, también hay que cambiar dx. Para eso derivamos.`,m:r`dx=3\cos\theta\,d\theta`},
+{say:r`Metemos el disfraz en la raíz. Sale algo muy simple gracias a \(\sin^2+\cos^2=1\).`,m:r`\sqrt{9-9\sin^2\theta}=\sqrt{9\cos^2\theta}=3\cos\theta`},
+{say:r`Sustituimos todo. Mira cómo se cancelan.`,m:r`\int\dfrac{3\cos\theta\,d\theta}{3\cos\theta}=\int d\theta=\theta+C`},
+{say:r`Pero el problema estaba en x, no en θ. Despejamos θ de nuestro disfraz y regresamos. ¡Listo! 🎉`,m:r`\sin\theta=\dfrac x3\;\Rightarrow\;\int\dfrac{dx}{\sqrt{9-x^2}}=\arcsin\dfrac x3+C`}]},
+{problem:r`\(\displaystyle\int\dfrac{\sqrt{x^2-4}}{x}\,dx\)`,steps:[
+{say:r`Raíz de «x al cuadrado menos número»: aquí se usa <b>secante</b>. Como \(4=2^2\), a es 2.`,m:r`\sqrt{x^2-4}\;\Rightarrow\;x=2\sec\theta`},
+{say:r`Derivamos el disfraz para conseguir dx.`,m:r`dx=2\sec\theta\tan\theta\,d\theta`},
+{say:r`Metemos el disfraz en la raíz. Usamos \(\sec^2\theta-1=\tan^2\theta\).`,m:r`\sqrt{4\sec^2\theta-4}=\sqrt{4\tan^2\theta}=2\tan\theta`},
+{say:r`Sustituimos todo. Se cancelan los 2 y las secantes.`,m:r`\int\dfrac{2\tan\theta}{2\sec\theta}\,(2\sec\theta\tan\theta)\,d\theta=\int2\tan^2\theta\,d\theta`},
+{say:r`Cambiamos \(\tan^2\) por \(\sec^2-1\) para poder integrar.`,m:r`2\int(\sec^2\theta-1)\,d\theta=2(\tan\theta-\theta)+C`},
+{say:r`Dibujamos el triángulo: de \(\sec\theta=\frac x2\), la hipotenusa es x, el lado de abajo es 2 y el de arriba es \(\sqrt{x^2-4}\). Entonces \(\tan\theta=\frac{\sqrt{x^2-4}}{2}\). ¡Listo! 🎉`,m:r`=\sqrt{x^2-4}-2\,\operatorname{arcsec}\dfrac x2+C`}]}],
+practice:{problem:r`Resuelve \(\displaystyle\int\dfrac{dx}{x^2+25}\).`,hint:r`Aparece \(x^2+\)número, así que usa tangente: \(x=5\tan\theta\). Entonces \(x^2+25=25\sec^2\theta\) y \(dx=5\sec^2\theta\,d\theta\).`,answer:r`\(\displaystyle\int\dfrac{5\sec^2\theta}{25\sec^2\theta}d\theta=\dfrac\theta5\;\Rightarrow\;\dfrac15\arctan\dfrac x5+C\)`}},
+
+{id:'fracciones',emoji:'🧱',title:'Fracciones parciales con factores cuadráticos',
+idea:r`Es como desarmar un Lego grande en piezas chiquitas: una fracción complicada se separa en fracciones sencillas que sí sabes integrar. Regla de oro: si el pedazo de abajo es <b>lineal</b> como \(x+1\), arriba va un número (A). Si es <b>cuadrático que no se puede romper</b> como \(x^2+4\), arriba va una x más un número (\(Bx+C\)).`,
+recipe:[
+r`Factoriza el denominador.`,
+r`Una fracción por cada factor: \(\dfrac{A}{\text{lineal}}\) y \(\dfrac{Bx+C}{\text{cuadrático}}\).`,
+r`Multiplica todo por el denominador común para quitar las fracciones.`,
+r`Saca A con un valor de x que haga cero un paréntesis.`,
+r`Saca B y C comparando los números que acompañan a \(x^2\) y los términos sueltos.`,
+r`Integra cada pedazo: \(\int\dfrac{1}{x+a}dx=\ln|x+a|\), \(\int\dfrac{x}{x^2+a^2}dx=\dfrac12\ln(x^2+a^2)\), \(\int\dfrac{1}{x^2+a^2}dx=\dfrac1a\arctan\dfrac xa\).`],
+examples:[
+{problem:r`\(\displaystyle\int\dfrac{3x^2+4x+11}{(x+1)(x^2+4)}\,dx\)`,steps:[
+{say:r`El denominador ya viene factorizado. \(x^2+4\) no se puede romper (no hay números reales que lo factoricen), por eso arriba lleva \(Bx+C\).`,m:r`\dfrac{3x^2+4x+11}{(x+1)(x^2+4)}=\dfrac{A}{x+1}+\dfrac{Bx+C}{x^2+4}`},
+{say:r`Quitamos los denominadores multiplicando todo por el común denominador.`,m:r`3x^2+4x+11=A(x^2+4)+(Bx+C)(x+1)`},
+{say:r`Truco: elegimos la x que haga cero un paréntesis. Con \(x=-1\) desaparece la parte de B y C, y nos regala A.`,m:r`x=-1:\;3-4+11=A(1+4)\;\Rightarrow\;10=5A\;\Rightarrow\;A=2`},
+{say:r`Para B y C comparamos: los números que acompañan a \(x^2\) y los números sueltos, de los dos lados de la igualdad.`,m:r`x^2:\ A+B=3\Rightarrow B=1\qquad\text{sueltos}:\ 4A+C=11\Rightarrow C=3`},
+{say:r`Reescribimos la integral con lo que encontramos y la separamos en tres pedacitos.`,m:r`\int\dfrac{2}{x+1}dx+\int\dfrac{x}{x^2+4}dx+\int\dfrac{3}{x^2+4}dx`},
+{say:r`Cada pedacito tiene su regla: el primero da ln, el segundo da medio ln (porque arriba falta un 2), y el tercero da arctan con \(\frac12\). ¡Listo! 🎉`,m:r`=2\ln|x+1|+\dfrac12\ln(x^2+4)+\dfrac32\arctan\dfrac x2+C`}]},
+{problem:r`\(\displaystyle\int\dfrac{4x^2+2x+3}{x(x^2+1)}\,dx\)`,steps:[
+{say:r`El factor x es lineal (va un número) y \(x^2+1\) es cuadrático que no se rompe (va \(Bx+C\)).`,m:r`\dfrac{4x^2+2x+3}{x(x^2+1)}=\dfrac Ax+\dfrac{Bx+C}{x^2+1}`},
+{say:r`Multiplicamos todo por el común denominador.`,m:r`4x^2+2x+3=A(x^2+1)+(Bx+C)\,x`},
+{say:r`Con \(x=0\) desaparece todo lo que tiene x, y nos queda A directo.`,m:r`x=0:\;3=A(1)\;\Rightarrow\;A=3`},
+{say:r`Comparamos números: los de \(x^2\) y los de x.`,m:r`x^2:\ A+B=4\Rightarrow B=1\qquad x:\ C=2`},
+{say:r`Separamos la integral. El numerador \(x+2\) lo partimos en \(x\) y \(2\).`,m:r`\int\dfrac3x\,dx+\int\dfrac{x}{x^2+1}\,dx+\int\dfrac{2}{x^2+1}\,dx`},
+{say:r`ln para el primero, medio ln para el segundo, y \(\int\frac{1}{x^2+1}=\arctan x\) para el tercero. ¡Listo! 🎉`,m:r`=3\ln|x|+\dfrac12\ln(x^2+1)+2\arctan x+C`}]}],
+practice:{problem:r`Resuelve \(\displaystyle\int\dfrac{5x^2-2x+17}{(x-1)(x^2+9)}\,dx\).`,hint:r`Plantea \(\dfrac{A}{x-1}+\dfrac{Bx+C}{x^2+9}\). Con \(x=1\) sacas A. Luego compara los números de \(x^2\) y los sueltos.`,answer:r`\(A=2,\ B=3,\ C=1\). Resultado: \(2\ln|x-1|+\dfrac32\ln(x^2+9)+\dfrac13\arctan\dfrac x3+C\)`}}
+];
+
+const EXTRA={
+riemann:`<div class="card"><h3>🎮 Juega con las cajitas</h3><p style="margin:0 0 8px">Mueve la barra. Estas cajitas tapan \\(y=x^2\\) de 0 a 2 (el área real es \\(\\frac83\\)).</p><canvas id="cv" width="640" height="260"></canvas><label for="rng">Número de cajitas: <b id="nv">4</b></label><input id="rng" type="range" min="1" max="60" value="4"><p class="rout" id="rout"></p></div>`,
+trig:`<div class="card"><h3>Tabla de disfraces</h3><div class="tw"><table><tr><th>Si ves…</th><th>Usa…</th><th>La raíz se vuelve…</th></tr>
+<tr><td>\\(\\sqrt{a^2-x^2}\\)</td><td>\\(x=a\\sin\\theta\\)</td><td>\\(a\\cos\\theta\\)</td></tr>
+<tr><td>\\(\\sqrt{a^2+x^2}\\) o \\(a^2+x^2\\)</td><td>\\(x=a\\tan\\theta\\)</td><td>\\(a\\sec\\theta\\)</td></tr>
+<tr><td>\\(\\sqrt{x^2-a^2}\\)</td><td>\\(x=a\\sec\\theta\\)</td><td>\\(a\\tan\\theta\\)</td></tr></table></div></div>`};
+
+function tx(el){if(window.mjReady){MathJax.typesetPromise([el]).catch(function(){});}}
+
+function stepper(ex,label){
+const n=ex.steps.length,d=document.createElement('div');d.className='card ex';
+d.innerHTML=`<div class="exhead"><span class="badge">${label}</span><p class="prob">${ex.problem}</p></div>
+<div class="teacher"><div class="av">🧑‍🏫</div><div class="bubble"><span class="bt">Cuando quieras, toca «Siguiente paso» y te explico.</span></div></div>
+<div class="board"></div>
+<div class="ctrl"><button class="b prev" disabled>◀ Anterior</button><button class="b primary next">Siguiente paso ▶</button><button class="b auto">▶ Auto</button><button class="b rst">↺ Reiniciar</button><span class="cnt">Paso 0 de ${n}</span><div class="bar"><i></i></div></div>`;
+const q=s=>d.querySelector(s);let i=-1,tm=null;
+function stop(){if(tm){clearInterval(tm);tm=null;q('.auto').textContent='▶ Auto';}}
+function render(){
+q('.board').innerHTML=ex.steps.slice(0,i+1).map((s,k)=>`<div class="line${k===i?' new':''}"><span class="n">${k+1}</span><div class="m">\\[${s.m}\\]</div></div>`).join('');
+const b=q('.bubble');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
+q('.bt').innerHTML=i<0?'Cuando quieras, toca «Siguiente paso» y te explico.':ex.steps[i].say;
+q('.prev').disabled=i<0;q('.next').disabled=i>=n-1;
+q('.cnt').textContent=`Paso ${i+1} de ${n}`;q('.bar i').style.width=((i+1)/n*100)+'%';
+if(i>=n-1)stop();tx(d);}
+q('.next').onclick=()=>{stop();if(i<n-1){i++;render();}};
+q('.prev').onclick=()=>{stop();if(i>=0){i--;render();}};
+q('.rst').onclick=()=>{stop();i=-1;render();};
+q('.auto').onclick=()=>{if(tm){stop();return;}if(i>=n-1)i=-1;q('.auto').textContent='⏸ Pausa';i++;render();tm=setInterval(()=>{if(i<n-1){i++;render();}else stop();},5000);};
+return d;}
+
+const ORDER=['fracciones','trig','areas','riemann'];
+T.sort((a,b)=>ORDER.indexOf(a.id)-ORDER.indexOf(b.id));
+
+const X2={
+fracciones:{
+ing:[r`Saber <b>factorizar</b> (factor común, diferencia de cuadrados, trinomios).`,r`Saber qué es un factor que <b>no se rompe</b>, como \(x^2+4\).`,r`Saber integrar \(\dfrac1{x+a}\) (da \(\ln\)) y \(\dfrac1{x^2+a^2}\) (da \(\arctan\)).`,r`Resolver ecuaciones sencillas con una o dos letras.`],
+why:[r`Para cortar la fracción en piezas, primero hay que ver de qué piezas está hecha, como ver de qué ladrillos está hecho un muro.`,r`Cada pieza de abajo necesita su propia fracción. Las cuadráticas llevan \(Bx+C\) porque son más «grandes» y necesitan más espacio arriba.`,r`Así desaparecen las fracciones y queda una igualdad normal, mucho más fácil de manejar.`,r`Si haces cero un paréntesis, esa parte desaparece y te queda una sola letra. Es un atajo.`,r`Dos expresiones iguales deben tener los mismos números en cada potencia de x. Eso te da ecuaciones pequeñas.`,r`Ahora cada fracción es sencilla y se integra con una regla.`],
+care:[r`Revisa si algún factor se puede romper más. Si sí, factoriza otra vez.`,r`Si abajo hay un cuadrático que no se rompe, arriba va \(Bx+C\), no solo B.`,r`Multiplica cada letra por <b>todo</b> lo que le falta, no solo por una parte.`,r`Elige una x que haga cero un paréntesis, no una cualquiera.`,r`Compara potencias iguales: \(x^2\) con \(x^2\), x con x, sueltos con sueltos.`,r`El \(\ln\) con factor lineal lleva valor absoluto. En \(\ln(x^2+4)\) no hace falta.`],
+mn:r`Lineal → un número arriba (A). Cuadrático que no se rompe → una x más un número arriba (\(Bx+C\)).`},
+trig:{
+ing:[r`Las identidades \(\sin^2\theta+\cos^2\theta=1\) y \(\sec^2\theta-1=\tan^2\theta\).`,r`Las derivadas de seno, tangente y secante.`,r`Integrales sencillas como \(\int d\theta=\theta\) y \(\int\sec^2\theta\,d\theta=\tan\theta\).`,r`Dibujar un triángulo rectángulo y usar seno, coseno y tangente.`],
+why:[r`La tabla te dice con qué «ropa» disfrazar a x para que la raíz desaparezca.`,r`Si cambias x por otra cosa, dx también cambia. Es como traducir toda la frase, no solo una palabra.`,r`La identidad convierte la resta dentro de la raíz en un cuadrado perfecto, y la raíz se va.`,r`Ahora todo está en θ, que es más sencillo, y casi siempre se cancela mucho.`,r`Tu respuesta debe estar en x, porque ahí empezó el problema. El triángulo traduce de θ a x.`,r`Una integral sin + C está incompleta, y el examen lo revisa.`],
+care:[r`Fíjate si adentro de la raíz hay resta o suma: de eso depende el disfraz.`,r`No olvides derivar el disfraz. Si olvidas el \(d\theta\), todo sale mal.`,r`Con la secante, la raíz da \(a\tan\theta\), no \(a\sec\theta\).`,r`Cancela solo lo que está <b>multiplicando</b>, no lo que está sumando.`,r`Marca bien los lados: con \(x=3\sec\theta\), la hipotenusa es x y el lado de abajo es 3.`,r`Cuando termines, que no quede ninguna θ en la respuesta.`],
+mn:r`\(a^2-x^2\) → seno · \(a^2+x^2\) → tangente · \(x^2-a^2\) → secante.`},
+areas:{
+ing:[r`Resolver ecuaciones (factorizar cuadráticas).`,r`Integrar potencias: \(\int x^n\,dx=\dfrac{x^{n+1}}{n+1}\).`,r`Evaluar una función en un número y restar con cuidado.`,r`Saber cuál curva va arriba, mirando una gráfica o probando un número.`],
+why:[r`Los puntos donde se cruzan son donde empieza y termina la rebanada.`,r`Con un solo número de prueba sabes cuál curva está arriba en todo ese tramo.`,r`Arriba menos abajo deja solo la altura de la rebanada en cada punto.`,r`Integrar suma todas esas alturas diminutas, y evaluar mide de dónde a dónde.`,r`El área se mide en cuadraditos, por eso son unidades al cuadrado.`,r`Si arriba y abajo se intercambian, hay que medir cada pedazo por separado. Si no, se cancelan.`,r`Si la curva viene como \(x=\dots\), es más fácil cortar en rebanadas horizontales.`],
+care:[r`Si salen varias soluciones, ordénalas de menor a mayor.`,r`No pruebes un número que sea justo un cruce, porque ahí las dos dan lo mismo.`,r`Usa paréntesis para que el menos afecte a toda la curva de abajo.`,r`Restar un negativo es sumar. Aquí se equivoca mucha gente.`,r`Un área nunca es negativa. Si te dio negativo, seguro invertiste arriba y abajo.`,r`Anota qué curva va arriba en cada pedazo, porque cambia.`,r`Los límites ahora son valores de y, no de x.`],
+mn:r`Arriba menos abajo. Derecha menos izquierda.`},
+riemann:{
+ing:[r`Área de un rectángulo: base por altura.`,r`Las fórmulas de sumas (están en el paso 5).`,r`Evaluar una función en una expresión con letras, como \(f\left(\frac{2i}{n}\right)\).`,r`Qué significa que n se haga muy grande: lo que tiene n abajo se vuelve casi cero.`],
+why:[r`Dividimos la distancia entre las n cajitas para que todas sean iguales.`,r`Cada cajita empieza donde terminó la anterior, por eso sumamos un ancho cada vez.`,r`La altura de la cajita es lo que vale la función justo ahí.`,r`El área total es la suma de todas las cajitas.`,r`Estas fórmulas convierten una suma larguísima en una expresión corta.`,r`Con infinitas cajitas ya no quedan huecos y el resultado es exacto.`],
+care:[r`Usa \(b-a\), no solo b.`,r`Si a no es 0, usa \(a+i\,\Delta x\), no solo \(i\,\Delta x\).`,r`Al meter \(x_i\) en la función, ponle paréntesis, sobre todo si hay potencias.`,r`No olvides multiplicar por \(\Delta x\).`,r`Lo que no tiene i sale de la suma. Lo que tiene i usa fórmula.`,r`Escribe \(\lim_{n\to\infty}\) en tus pasos.`],
+mn:r`Ancho, borde, altura, área, suma, infinito.`}
+};
+
+const GP={
+fracciones:[
+{q:r`Para \(\dfrac{5x^2-2x+17}{(x-1)(x^2+9)}\), ¿cómo se parte la fracción en piezas?`,o:[r`\(\dfrac{A}{x-1}+\dfrac{Bx+C}{x^2+9}\)`,r`\(\dfrac{A}{x-1}+\dfrac{B}{x^2+9}\)`,r`\(\dfrac{Ax+B}{x-1}+\dfrac{C}{x^2+9}\)`],h:r`El de abajo \(x^2+9\) no se rompe. ¿Qué lleva arriba un cuadrático?`,fb:r`Lineal lleva un número arriba, y el cuadrático que no se rompe lleva \(Bx+C\).`},
+{q:r`Multiplicamos todo por el denominador común. ¿Qué queda?`,o:[r`\(5x^2-2x+17=A(x^2+9)+(Bx+C)(x-1)\)`,r`\(5x^2-2x+17=A(x-1)+(Bx+C)(x^2+9)\)`,r`\(5x^2-2x+17=A+Bx+C\)`],h:r`Cada pieza se multiplica por lo que le falta del denominador.`,fb:r`A se multiplica por lo que le falta: \(x^2+9\). Y \(Bx+C\) por \(x-1\).`},
+{q:r`¿Qué valor de x conviene para sacar A?`,o:[r`\(x=1\)`,r`\(x=0\)`,r`\(x=9\)`],h:r`Busca la x que haga cero el paréntesis \((x-1)\).`,fb:r`Con \(x=1\) desaparece \((x-1)\): \(20=10A\), así que \(A=2\).`},
+{q:r`Ya sabes \(A=2\). Comparando los números de \(x^2\): \(A+B=5\). ¿Cuánto vale B?`,o:[r`\(3\)`,r`\(7\)`,r`\(2\)`],h:r`Resta: \(5-2\).`,fb:r`\(2+B=5\), entonces \(B=3\).`},
+{q:r`Comparando los números sueltos sale \(9A-C=17\). Con \(A=2\), ¿cuánto vale C?`,o:[r`\(1\)`,r`\(35\)`,r`\(-1\)`],h:r`\(9\cdot2=18\). ¿Qué número restado a 18 da 17?`,fb:r`\(18-C=17\), entonces \(C=1\).`},
+{q:r`Queda \(\dfrac{2}{x-1}+\dfrac{3x+1}{x^2+9}\). ¿Cuál es el resultado de integrar?`,o:[r`\(2\ln|x-1|+\dfrac32\ln(x^2+9)+\dfrac13\arctan\dfrac x3+C\)`,r`\(2\ln|x-1|+3\ln(x^2+9)+\arctan\dfrac x3+C\)`,r`\(2\ln|x-1|+\dfrac32\ln(x^2+9)+3\arctan\dfrac x3+C\)`],h:r`La parte \(3x\) da un \(\ln\) con un medio. La parte \(1\) da un \(\arctan\) con \(\frac13\).`,fb:r`\(3x\) da \(\tfrac32\ln(x^2+9)\) (falta un 2) y el \(1\) da \(\tfrac13\arctan\tfrac x3\).`}],
+trig:[
+{q:r`Para \(\displaystyle\int\dfrac{dx}{x^2+25}\), ¿qué disfraz usas?`,o:[r`\(x=5\tan\theta\)`,r`\(x=5\sin\theta\)`,r`\(x=5\sec\theta\)`],h:r`Hay \(x^2\) más un número. Mira la tabla de disfraces.`,fb:r`\(x^2+\) número pide tangente, y \(5^2=25\).`},
+{q:r`¿Cuánto vale \(dx\)?`,o:[r`\(5\sec^2\theta\,d\theta\)`,r`\(5\cos\theta\,d\theta\)`,r`\(5\tan\theta\,d\theta\)`],h:r`Deriva \(5\tan\theta\).`,fb:r`La derivada de \(\tan\theta\) es \(\sec^2\theta\).`},
+{q:r`¿Cuánto vale \(x^2+25\) con el disfraz?`,o:[r`\(25\sec^2\theta\)`,r`\(25\tan^2\theta\)`,r`\(25\cos^2\theta\)`],h:r`\(25\tan^2\theta+25=25(\tan^2\theta+1)\). ¿Y \(\tan^2+1\)?`,fb:r`\(\tan^2\theta+1=\sec^2\theta\), así que sale \(25\sec^2\theta\).`},
+{q:r`Sustituyes y queda \(\dfrac{5\sec^2\theta}{25\sec^2\theta}\,d\theta\). ¿Qué queda al simplificar?`,o:[r`\(\dfrac15\,d\theta\)`,r`\(5\,d\theta\)`,r`\(\sec^2\theta\,d\theta\)`],h:r`Se cancelan las \(\sec^2\theta\). Queda \(\frac{5}{25}\).`,fb:r`\(\frac5{25}=\frac15\). Al integrar queda \(\frac\theta5\).`},
+{q:r`Regresando a x: de \(\tan\theta=\dfrac x5\), ¿cuánto es θ?`,o:[r`\(\arctan\dfrac x5\)`,r`\(\arcsin\dfrac x5\)`,r`\(\dfrac x5\)`],h:r`Para despejar θ de una tangente se usa su función inversa.`,fb:r`Por eso el resultado es \(\dfrac15\arctan\dfrac x5+C\).`}],
+areas:[
+{q:r`Quieres el área entre \(y=x^2+1\) y \(y=2x+4\). ¿Cómo encuentras dónde se cruzan?`,o:[r`Igualo: \(x^2+1=2x+4\)`,r`Sumo las dos funciones`,r`Derivo las dos`],h:r`Donde se cruzan, las dos valen lo mismo.`,fb:r`Igualar nos da los puntos donde empieza y termina la rebanada.`},
+{q:r`Al resolver \(x^2-2x-3=0\) sale \((x-3)(x+1)=0\). ¿Cuáles son los límites?`,o:[r`\(-1\) y \(3\)`,r`\(1\) y \(-3\)`,r`\(0\) y \(3\)`],h:r`Cada paréntesis igual a cero te da un valor.`,fb:r`\(x-3=0\to x=3\) y \(x+1=0\to x=-1\).`},
+{q:r`Pruebas \(x=0\): la parábola da \(1\) y la recta da \(4\). ¿Cuál va arriba?`,o:[r`La recta`,r`La parábola`,r`Da lo mismo`],h:r`¿Cuál número es más grande, 1 o 4?`,fb:r`\(4>1\), así que la recta \(y=2x+4\) va arriba.`},
+{q:r`¿Cómo planteas la integral?`,o:[r`\(\displaystyle\int_{-1}^{3}\left[(2x+4)-(x^2+1)\right]dx\)`,r`\(\displaystyle\int_{-1}^{3}\left[(x^2+1)-(2x+4)\right]dx\)`,r`\(\displaystyle\int_{-1}^{3}\left[(2x+4)+(x^2+1)\right]dx\)`],h:r`Recuerda: arriba menos abajo, con paréntesis.`,fb:r`Arriba (la recta) menos abajo (la parábola).`},
+{q:r`¿Qué queda adentro, ya simplificado?`,o:[r`\(-x^2+2x+3\)`,r`\(x^2-2x-3\)`,r`\(-x^2+2x+5\)`],h:r`El menos afecta a todo el paréntesis: \(-(x^2+1)=-x^2-1\).`,fb:r`\(2x+4-x^2-1=-x^2+2x+3\).`},
+{q:r`La antiderivada es \(-\tfrac{x^3}{3}+x^2+3x\). En 3 vale 9 y en −1 vale \(-\tfrac53\). ¿Cuál es el área?`,o:[r`\(\dfrac{32}{3}\,u^2\)`,r`\(9\,u^2\)`,r`\(-\dfrac{32}{3}\,u^2\)`],h:r`Resta: \(9-\left(-\tfrac53\right)\). Restar un negativo es sumar.`,fb:r`\(9+\tfrac53=\tfrac{32}{3}\). Un área nunca es negativa.`}],
+riemann:[
+{q:r`Para \(\displaystyle\int_0^3(x+1)\,dx\), ¿cuánto vale \(\Delta x\)?`,o:[r`\(\dfrac3n\)`,r`\(\dfrac n3\)`,r`\(3n\)`],h:r`\(\Delta x=\dfrac{b-a}{n}\) con \(a=0\) y \(b=3\).`,fb:r`\(\dfrac{3-0}{n}=\dfrac3n\).`},
+{q:r`¿Cuánto vale \(x_i\)?`,o:[r`\(\dfrac{3i}{n}\)`,r`\(3+\dfrac in\)`,r`\(\dfrac{i}{3n}\)`],h:r`\(x_i=a+i\,\Delta x\) y \(a=0\).`,fb:r`\(0+i\cdot\dfrac3n=\dfrac{3i}{n}\).`},
+{q:r`¿Cuánto vale \(f(x_i)\)?`,o:[r`\(\dfrac{3i}{n}+1\)`,r`\(\dfrac{3i}{n}\)`,r`\(\left(\dfrac{3i}{n}\right)^2+1\)`],h:r`La función es \(x+1\). Mete \(x_i\) en lugar de x.`,fb:r`\(f(x)=x+1\), así que \(f(x_i)=\tfrac{3i}{n}+1\).`},
+{q:r`Multiplicas por \(\Delta x\): \(\left(\dfrac{3i}{n}+1\right)\dfrac3n\). ¿Cuánto da?`,o:[r`\(\dfrac{9i}{n^2}+\dfrac3n\)`,r`\(\dfrac{9i}{n}+3\)`,r`\(\dfrac{3i}{n^2}+1\)`],h:r`Reparte el \(\frac3n\) en cada término del paréntesis.`,fb:r`\(\tfrac{3i}{n}\cdot\tfrac3n=\tfrac{9i}{n^2}\) y \(1\cdot\tfrac3n=\tfrac3n\).`},
+{q:r`Sumando sale \(\dfrac92\cdot\dfrac{n+1}{n}+3\). Con \(n\to\infty\), ¿qué da todo?`,o:[r`\(\dfrac{15}{2}\)`,r`\(3\)`,r`\(\dfrac92\)`],h:r`Cuando n es enorme, \(\frac{n+1}{n}\) se acerca a 1.`,fb:r`\(\tfrac92\cdot1+3=\tfrac{15}{2}\). Y \(\tfrac{x^2}{2}+x\) de 0 a 3 también da \(\tfrac{15}{2}\).`}]
+};
+function guided(el,t){
+const S=GP[t.id];let i=0;
+function show(){
+if(i>=S.length){el.innerHTML='<div class="gpok">🎉 <b>¡Lo lograste, bien hecho!</b> Resultado final: '+t.practice.answer+'<div class="ctrl"><button class="b rs">↺ Practicar otra vez</button></div></div>';el.querySelector('.rs').onclick=()=>{i=0;show();};tx(el);return;}
+const s=S[i];
+el.innerHTML='<div class="bar"><i style="width:'+(i/S.length*100)+'%"></i></div><p class="cnt2">Pregunta '+(i+1)+' de '+S.length+'</p><p class="gq">'+s.q+'</p><div class="det opts"></div><div class="gpfb"></div>';
+const ob=el.querySelector('.opts'),fb=el.querySelector('.gpfb');
+const op=s.o.map((x,k)=>({x,c:k===0}));
+for(let a=op.length-1;a>0;a--){const b=Math.floor(Math.random()*(a+1));[op[a],op[b]]=[op[b],op[a]];}
+op.forEach(o=>{const b=document.createElement('button');b.className='b';b.innerHTML=o.x;
+b.onclick=()=>{
+if(o.c){b.style.borderColor='var(--ok)';b.style.background='var(--okbg)';ob.querySelectorAll('button').forEach(z=>z.disabled=true);
+fb.innerHTML='✅ <b>¡Correcto!</b> '+s.fb+'<div class="ctrl"><button class="b primary nx">Siguiente ▶</button></div>';
+fb.querySelector('.nx').onclick=()=>{i++;show();};}
+else{b.disabled=true;fb.innerHTML='🤔 <b>Casi. Inténtalo otra vez.</b> Pista: '+s.h;}
+tx(el);};
+ob.appendChild(b);});
+tx(el);}
+show();}
+const DET=[
+{q:'Una fracción con un polinomio abajo que se puede factorizar',id:'fracciones',tip:'Factoriza el denominador y reparte una fracción por cada factor.'},
+{q:'Una raíz con x² y un número adentro (o x² + número abajo)',id:'trig',tip:'Mira si hay suma o resta y elige seno, tangente o secante.'},
+{q:'Me dan dos curvas y piden el área que queda entre ellas',id:'areas',tip:'Iguala las curvas para encontrar los límites.'},
+{q:'Me piden usar la definición con sumas, límite y n',id:'riemann',tip:'Empieza por el ancho de cada cajita: Δx = (b − a)/n.'}];
+(function(){
+const box=document.getElementById('det'),res=document.getElementById('detres');
+DET.forEach(d=>{const b=document.createElement('button');b.className='b';b.textContent='👉 '+d.q;
+b.onclick=()=>{const k=ORDER.indexOf(d.id),t=T.find(x=>x.id===d.id);
+res.innerHTML='Usa la receta del <b>Tema '+(k+1)+': '+t.title+'</b>. '+d.tip+' <a href="#'+d.id+'">Ir al tema ↓</a>';res.classList.add('on');};
+box.appendChild(b);});
+})();
+const root=document.getElementById('topics');
+T.forEach((t,ti)=>{
+const s=document.createElement('section');s.id=t.id;
+s.innerHTML=`<span class="tag">Tema ${ti+1}</span><h2>${t.emoji} ${t.title}</h2>
+<div class="card idea"><h3>La idea, sin complicarse</h3><p>${t.idea}</p></div>${t.extra?EXTRA[t.extra]:''}
+<div class="card"><h3>🧂 Ingredientes: lo que necesitas saber primero</h3><ul class="ing">${X2[t.id].ing.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+<div class="card"><h3>La receta</h3><ol class="recipe">${t.recipe.map((x,k)=>`<li>${x}<details class="why"><summary>¿Por qué hago esto?</summary><p>${X2[t.id].why[k]}</p></details><div class="care">⚠️ <b>¡Cuidado!</b> ${X2[t.id].care[k]}</div></li>`).join('')}</ol></div>
+<div class="card mnemo">🧠 Para recordar: ${X2[t.id].mn}</div>
+<h3 class="sub">Ejemplos resueltos, paso a paso</h3><div class="exs"></div>
+<div class="card practice"><h3>🎯 Práctica guiada: ahora lo haces tú</h3><p class="prob">${t.practice.problem}</p><p style="margin:6px 0;color:var(--mut)">Te voy preguntando paso a paso. Elige la respuesta. Si fallas, te doy una pista y lo intentas otra vez.</p><div class="gp"></div></div>`;
+const box=s.querySelector('.exs');
+t.examples.forEach((e,k)=>box.appendChild(stepper(e,'Ejemplo '+'AB'[k])));
+guided(s.querySelector('.gp'),t);root.appendChild(s);});
+
+(function(){
+const cv=document.getElementById('cv');if(!cv)return;
+const c=cv.getContext('2d'),rng=document.getElementById('rng'),nv=document.getElementById('nv'),out=document.getElementById('rout');
+function col(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function draw(){
+const n=+rng.value,W=cv.width,H=cv.height,p=28,sx=(W-2*p)/2,sy=(H-2*p)/4;
+c.clearRect(0,0,W,H);c.strokeStyle=col('--mut');c.lineWidth=1;
+c.beginPath();c.moveTo(p,p/2);c.lineTo(p,H-p);c.lineTo(W-p/2,H-p);c.stroke();
+let sum=0;c.fillStyle=col('--acc')+'55';c.strokeStyle=col('--acc');
+for(let i=1;i<=n;i++){const x=2*i/n,h=x*x,w=2/n;sum+=h*w;
+c.fillRect(p+(x-w)*sx,H-p-h*sy,w*sx,h*sy);c.strokeRect(p+(x-w)*sx,H-p-h*sy,w*sx,h*sy);}
+c.strokeStyle=col('--acc2');c.lineWidth=3;c.beginPath();
+for(let k=0;k<=100;k++){const x=k/50,X=p+x*sx,Y=H-p-x*x*sy;k?c.lineTo(X,Y):c.moveTo(X,Y);}c.stroke();
+nv.textContent=n;
+out.innerHTML=`Con <b>${n}</b> cajitas la suma da <b>${sum.toFixed(4)}</b>. El valor real es 2.6667. Te pasas por <b>${(sum-8/3).toFixed(4)}</b>.`;}
+rng.addEventListener('input',draw);draw();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',draw);
+})();
+</script>
+</body>
+</html>
