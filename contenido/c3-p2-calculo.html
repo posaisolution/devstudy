@@ -120,7 +120,7 @@ startup:{pageReady:function(){return MathJax.startup.defaultPageReady().then(fun
 <section id="video">
 <span class="tag">En 3 minutos</span>
 <h2>Míralo primero</h2>
-<p style="margin:0 0 12px;color:var(--mut)">Si no quieres leer, dale play. Un repaso rápido de los 4 temas, con voz y dibujos.</p>
+<p style="margin:0 0 12px;color:var(--mut)">Si no quieres leer, dale play. Un repaso rápido de los 4 temas, con voz y dibujos. ¿Solo te interesa fracciones parciales con cuadráticos? En el <a href="#fracciones">Tema 1</a> tienes un video dedicado de 8 minutos.</p>
 <div class="card" style="padding:10px">
 <video controls preload="metadata" playsinline style="width:100%;border-radius:10px;display:block;background:#000">
 <source src="video/calculo-p2-pixel.mp4" type="video/mp4">
@@ -250,7 +250,7 @@ examples:[
 {say:r`Dibujamos el triángulo: de \(\sec\theta=\frac x2\), la hipotenusa es x, el lado de abajo es 2 y el de arriba es \(\sqrt{x^2-4}\). Entonces \(\tan\theta=\frac{\sqrt{x^2-4}}{2}\). ¡Listo! 🎉`,m:r`=\sqrt{x^2-4}-2\,\operatorname{arcsec}\dfrac x2+C`}]}],
 practice:{problem:r`Resuelve \(\displaystyle\int\dfrac{dx}{x^2+25}\).`,hint:r`Aparece \(x^2+\)número, así que usa tangente: \(x=5\tan\theta\). Entonces \(x^2+25=25\sec^2\theta\) y \(dx=5\sec^2\theta\,d\theta\).`,answer:r`\(\displaystyle\int\dfrac{5\sec^2\theta}{25\sec^2\theta}d\theta=\dfrac\theta5\;\Rightarrow\;\dfrac15\arctan\dfrac x5+C\)`}},
 
-{id:'fracciones',emoji:'🧱',title:'Fracciones parciales con factores cuadráticos',
+{id:'fracciones',emoji:'🧱',title:'Fracciones parciales con factores cuadráticos',extra:'fracciones',
 idea:r`Es como desarmar un Lego grande en piezas chiquitas: una fracción complicada se separa en fracciones sencillas que sí sabes integrar. Regla de oro: si el pedazo de abajo es <b>lineal</b> como \(x+1\), arriba va un número (A). Si es <b>cuadrático que no se puede romper</b> como \(x^2+4\), arriba va una x más un número (\(Bx+C\)).`,
 recipe:[
 r`Factoriza el denominador.`,
@@ -278,6 +278,7 @@ practice:{problem:r`Resuelve \(\displaystyle\int\dfrac{5x^2-2x+17}{(x-1)(x^2+9)}
 ];
 
 const EXTRA={
+fracciones:`<div class="card"><h3>🎬 Video: el ejemplo completo, paso a paso</h3><p style="margin:0 0 10px;color:var(--mut)">8 minutos. Resolvemos la integral de abajo línea por línea: cómo desarmar la fracción, cómo salen A, B y C, qué revisar antes de entregar y qué puede cambiar en el examen.</p><video controls preload="metadata" playsinline poster="video/calculo-fracciones-poster.jpg" style="width:100%;border-radius:10px;display:block;background:#000"><source src="video/calculo-fracciones-cuadraticas.mp4" type="video/mp4">Tu navegador no reproduce el video. <a href="video/calculo-fracciones-cuadraticas.mp4">Descárgalo aquí</a>.</video></div>`,
 riemann:`<div class="card"><h3>🎮 Juega con las cajitas</h3><p style="margin:0 0 8px">Mueve la barra. Estas cajitas tapan \\(y=x^2\\) de 0 a 2 (el área real es \\(\\frac83\\)).</p><canvas id="cv" width="640" height="260"></canvas><label for="rng">Número de cajitas: <b id="nv">4</b></label><input id="rng" type="range" min="1" max="60" value="4"><p class="rout" id="rout"></p></div>`,
 trig:`<div class="card"><h3>Tabla de disfraces</h3><div class="tw"><table><tr><th>Si ves…</th><th>Usa…</th><th>La raíz se vuelve…</th></tr>
 <tr><td>\\(\\sqrt{a^2-x^2}\\)</td><td>\\(x=a\\sin\\theta\\)</td><td>\\(a\\cos\\theta\\)</td></tr>
