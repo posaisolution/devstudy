@@ -807,6 +807,41 @@ main, .nav, .foot { position: relative; z-index: 1; }
 .mark-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .mark-row .mark-btn { margin-top: 0; }
 
+/* ---------- complemento ---------- */
+
+.complemento {
+  display: grid;
+  grid-template-columns: 1.4fr .6fr;
+  gap: 32px;
+  align-items: center;
+  padding: 42px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,92,157,.28);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(255,92,157,.16), transparent 60%),
+    linear-gradient(170deg, var(--surface) 0%, var(--bg-soft) 100%);
+}
+.complemento .eyebrow { color: var(--pink); }
+.complemento .eyebrow::before { background: var(--pink); }
+.complemento h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-bottom: 14px; }
+.complemento p { color: var(--muted); max-width: 58ch; margin-bottom: 20px; }
+.complemento .chips { margin-top: 0; padding-top: 0; border-top: 0; margin-bottom: 24px; }
+.complemento-visual { display: grid; place-items: center; }
+.calc-badge {
+  width: 148px;
+  height: 148px;
+  border-radius: 30px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 5.2rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #06090F;
+  background: var(--grad-warm);
+  box-shadow: 0 24px 60px -18px rgba(255,92,157,.6);
+}
+
 /* ---------- skills ---------- */
 
 .skills {
@@ -1095,6 +1130,8 @@ main, .nav, .foot { position: relative; z-index: 1; }
   .hero-stats { gap: 24px; }
   .quote-card { padding: 42px 24px; }
   .cta-final { padding: 46px 24px; }
+  .complemento { grid-template-columns: 1fr; padding: 28px; }
+  .complemento-visual { display: none; }
 }
 
 @media (max-width: 520px) {
@@ -1102,6 +1139,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
   .hero-actions .btn { width: 100%; }
   .hero-float { display: none; }
   .btn { padding: 14px 22px; }
+  .complemento { padding: 24px; }
   .code-body { font-size: .7rem; padding: 16px 14px 20px; line-height: 1.85; }
 }
 
@@ -1355,6 +1393,37 @@ main, .nav, .foot { position: relative; z-index: 1; }
   </div>
 </section>
 
+<!-- =================== COMPLEMENTO: CÁLCULO INTEGRAL =================== -->
+<section class="sec-tight" id="calculo">
+  <div class="wrap">
+    <div class="complemento reveal">
+      <div>
+        <span class="eyebrow">Complemento</span>
+        <h2>Cálculo Integral</h2>
+        <p>
+          Tu ruta principal es desarrollo de software. Esta guía extra te acompaña en el
+          segundo parcial de Cálculo Integral: integrales, áreas y sumas de Riemann,
+          explicadas como una receta, paso a paso.
+        </p>
+        <div class="chips">
+          <span>Fracciones parciales</span>
+          <span>Sustitución trigonométrica</span>
+          <span>Áreas entre curvas</span>
+          <span>Suma de Riemann</span>
+          <span>Errores comunes</span>
+        </div>
+        <a class="btn btn-primary" href="contenido/c3-p2-calculo.html">
+          Abrir guía de Cálculo Integral
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="complemento-visual" aria-hidden="true">
+        <span class="calc-badge">&int;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- =================== APRENDER =================== -->
 <section class="sec" id="aprender" style="background:linear-gradient(180deg,transparent,rgba(255,255,255,.015),transparent)">
   <div class="wrap">
@@ -1522,6 +1591,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
           <a href="#aprender">Qué aprenderás</a>
           <a href="#como">Cómo funciona</a>
           <a href="#preguntas">Preguntas</a>
+          <a href="#calculo">Complemento · Cálculo Integral</a>
         </div>
         <div class="foot-col">
           <h4>Proyecto</h4>
