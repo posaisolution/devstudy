@@ -11,9 +11,13 @@ img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:70px}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:env(safe-area-inset-bottom)}
-header.top{padding:calc(14px + env(safe-area-inset-top)) 16px 0;max-width:860px;margin:0 auto}
-.brand{font-weight:700;color:var(--acc);letter-spacing:.3px}
+header.top{display:flex;align-items:center;gap:12px;padding:calc(14px + env(safe-area-inset-top)) 16px 0;max-width:860px;margin:0 auto}
+.brand{font-weight:700;color:var(--acc);letter-spacing:.3px;text-decoration:none}
 .brand small{color:var(--mut);font-weight:500;margin-left:6px}
+.back{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--bd);background:var(--card);color:var(--fg);font-size:.82rem;font-weight:600;text-decoration:none;transition:border-color .2s,transform .2s}
+.back:hover{border-color:var(--acc);transform:translateX(-2px)}
+.back svg{width:14px;height:14px}
+@media(max-width:480px){.brand small{display:none}.back{padding:7px 12px;font-size:.76rem}}
 nav.nav{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--bd);margin-top:10px}
 nav.nav div{max-width:860px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;overflow-x:auto}
 nav.nav a{white-space:nowrap;text-decoration:none;color:var(--fg);border:1px solid var(--bd);background:var(--card);padding:5px 12px;border-radius:99px;font-size:.88rem}
@@ -93,7 +97,7 @@ startup:{pageReady:function(){return MathJax.startup.defaultPageReady().then(fun
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
 </head>
 <body>
-<header class="top"><a class="brand" href="../index.html" style="text-decoration:none">DevStudy<small>Cuatrimestre 3 · Cálculo Integral</small></a></header>
+<header class="top"><a class="brand" href="../index.html">DevStudy<small>Cuatrimestre 3 · Cálculo Integral</small></a><a class="back" href="../index.html" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg><span>Volver al inicio</span></a></header>
 <nav class="nav"><div>
 <a href="#guia"><b>0</b>Cómo usarla</a><a href="#fracciones"><b>1</b>Fracciones parciales</a><a href="#trig"><b>2</b>Sust. trigonométrica</a><a href="#areas"><b>3</b>Áreas</a><a href="#riemann"><b>4</b>Riemann</a><a href="#errores"><b>5</b>Errores comunes</a>
 </div></nav>
