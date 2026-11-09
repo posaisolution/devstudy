@@ -87,6 +87,15 @@ ol.recipe details.why p{margin:6px 0 4px;font-size:.93rem}
 .det{display:grid;gap:8px}.det .b{text-align:left}
 .detres{margin-top:10px;background:var(--hl);border-radius:10px;padding:10px 14px;display:none}
 .detres.on{display:block;animation:pop .45s ease}
+.exlist{margin:8px 0 0;padding-left:0;list-style:none;counter-reset:ex}
+.exlist>li{counter-increment:ex;position:relative;padding:14px 0 14px 42px;border-bottom:1px dashed var(--bd)}
+.exlist>li:last-child{border-bottom:0}
+.exlist>li::before{content:counter(ex);position:absolute;left:0;top:14px;width:28px;height:28px;border-radius:8px;background:var(--hl);color:var(--acc);display:grid;place-items:center;font-weight:700;font-size:.82rem}
+.exlist .prob{margin:0 0 10px}
+.solbox{display:none;margin-top:10px;background:var(--okbg);border-left:4px solid var(--ok);border-radius:8px;padding:10px 14px}
+.solbox.on{display:block;animation:pop .35s ease}
+.solbox p{margin:6px 0}
+.solbox .final{font-weight:700;color:var(--ok)}
 footer{text-align:center;color:var(--mut);font-size:.85rem;padding:24px 16px}
 @media print{nav.nav{display:none}.card{break-inside:avoid}}
 </style>
@@ -275,6 +284,45 @@ trig:`<div class="card"><h3>Tabla de disfraces</h3><div class="tw"><table><tr><t
 <tr><td>\\(\\sqrt{a^2+x^2}\\) o \\(a^2+x^2\\)</td><td>\\(x=a\\tan\\theta\\)</td><td>\\(a\\sec\\theta\\)</td></tr>
 <tr><td>\\(\\sqrt{x^2-a^2}\\)</td><td>\\(x=a\\sec\\theta\\)</td><td>\\(a\\tan\\theta\\)</td></tr></table></div></div>`};
 
+const EX={
+fracciones:[
+{p:r`\(\displaystyle\int\dfrac{2x+3}{(x+1)(x^2+1)}\,dx\)`,
+ s:r`<p>Plantea \(\dfrac{A}{x+1}+\dfrac{Bx+C}{x^2+1}\).</p><p>Multiplica: \(2x+3=A(x^2+1)+(Bx+C)(x+1)\).</p><p>Con \(x=-1\): \(1=2A\Rightarrow A=\tfrac12\).</p><p>Comparando coeficientes: \(B=-\tfrac12\) y \(C=\tfrac52\).</p><p class="final">Resultado: \(\tfrac12\ln|x+1|-\tfrac14\ln(x^2+1)+\tfrac52\arctan x+C\).</p>`},
+{p:r`\(\displaystyle\int\dfrac{x^2+2x+2}{x(x^2+2)}\,dx\)`,
+ s:r`<p>Plantea \(\dfrac Ax+\dfrac{Bx+C}{x^2+2}\).</p><p>Multiplica: \(x^2+2x+2=A(x^2+2)+(Bx+C)x\).</p><p>Comparando: \(A=1\), \(C=2\), \(B=0\).</p><p>Queda \(\displaystyle\int\dfrac{dx}{x}+\int\dfrac{2\,dx}{x^2+2}\).</p><p class="final">Resultado: \(\ln|x|+\sqrt2\arctan\dfrac{x}{\sqrt2}+C\).</p>`},
+{p:r`\(\displaystyle\int\dfrac{3x^2+5x+6}{(x+2)(x^2+4)}\,dx\)`,
+ s:r`<p>Plantea \(\dfrac{A}{x+2}+\dfrac{Bx+C}{x^2+4}\).</p><p>Multiplica: \(3x^2+5x+6=A(x^2+4)+(Bx+C)(x+2)\).</p><p>Con \(x=-2\): \(8=8A\Rightarrow A=1\).</p><p>Comparando: \(B=2\), \(C=1\).</p><p class="final">Resultado: \(\ln|x+2|+\ln(x^2+4)+\tfrac12\arctan\dfrac x2+C\).</p>`},
+{p:r`\(\displaystyle\int\dfrac{x^2+4}{(x-1)(x^2+1)}\,dx\)`,
+ s:r`<p>Plantea \(\dfrac{A}{x-1}+\dfrac{Bx+C}{x^2+1}\).</p><p>Multiplica: \(x^2+4=A(x^2+1)+(Bx+C)(x-1)\).</p><p>Con \(x=1\): \(5=2A\Rightarrow A=\tfrac52\).</p><p>Comparando: \(B=-\tfrac32\), \(C=-\tfrac32\).</p><p class="final">Resultado: \(\tfrac52\ln|x-1|-\tfrac34\ln(x^2+1)-\tfrac32\arctan x+C\).</p>`}],
+trig:[
+{p:r`\(\displaystyle\int\dfrac{dx}{\sqrt{25-x^2}}\)`,
+ s:r`<p>Es \(\sqrt{a^2-x^2}\): usa \(x=5\sin\theta\), \(dx=5\cos\theta\,d\theta\).</p><p>La raíz queda \(5\cos\theta\).</p><p>Se simplifica a \(\displaystyle\int d\theta=\theta+C\).</p><p class="final">Resultado: \(\arcsin\dfrac x5+C\).</p>`},
+{p:r`\(\displaystyle\int\dfrac{dx}{x^2+16}\)`,
+ s:r`<p>Es \(x^2+a^2\): usa \(x=4\tan\theta\), \(dx=4\sec^2\theta\,d\theta\).</p><p>\(x^2+16=16\sec^2\theta\).</p><p>Queda \(\displaystyle\int\dfrac{4\sec^2\theta}{16\sec^2\theta}d\theta=\dfrac{\theta}{4}\).</p><p class="final">Resultado: \(\tfrac14\arctan\dfrac x4+C\).</p>`},
+{p:r`\(\displaystyle\int\dfrac{\sqrt{x^2-9}}{x}\,dx\)`,
+ s:r`<p>Es \(\sqrt{x^2-a^2}\): usa \(x=3\sec\theta\), \(dx=3\sec\theta\tan\theta\,d\theta\).</p><p>La raíz queda \(3\tan\theta\).</p><p>Se reduce a \(3\displaystyle\int\tan^2\theta\,d\theta=3(\tan\theta-\theta)+C\).</p><p>Del triángulo, \(\tan\theta=\dfrac{\sqrt{x^2-9}}{3}\).</p><p class="final">Resultado: \(\sqrt{x^2-9}-3\operatorname{arcsec}\dfrac x3+C\).</p>`},
+{p:r`\(\displaystyle\int\sqrt{4-x^2}\,dx\)`,
+ s:r`<p>Es \(\sqrt{a^2-x^2}\): usa \(x=2\sin\theta\), \(dx=2\cos\theta\,d\theta\).</p><p>La raíz queda \(2\cos\theta\): la integral es \(4\displaystyle\int\cos^2\theta\,d\theta\).</p><p>Con \(\cos^2\theta=\dfrac{1+\cos 2\theta}{2}\) da \(2\theta+\sin 2\theta+C\).</p><p class="final">Resultado: \(\dfrac x2\sqrt{4-x^2}+2\arcsin\dfrac x2+C\).</p>`}],
+areas:[
+{p:r`Área entre \(y=4\) y \(y=x^2\).`,
+ s:r`<p>Cruces: \(x^2=4\Rightarrow x=\pm2\).</p><p>Arriba va \(y=4\), abajo \(y=x^2\).</p><p>\(A=\displaystyle\int_{-2}^{2}(4-x^2)\,dx=\left[4x-\dfrac{x^3}{3}\right]_{-2}^{2}\).</p><p class="final">Resultado: \(\dfrac{32}{3}\,u^2\).</p>`},
+{p:r`Área entre \(y=2x\) y \(y=x^2\).`,
+ s:r`<p>Cruces: \(x^2=2x\Rightarrow x=0,\,2\).</p><p>Prueba \(x=1\): \(2>1\), así que \(y=2x\) va arriba.</p><p>\(A=\displaystyle\int_0^2(2x-x^2)\,dx=\left[x^2-\dfrac{x^3}{3}\right]_0^2\).</p><p class="final">Resultado: \(\dfrac43\,u^2\).</p>`},
+{p:r`Área entre \(y=3x\) y \(y=x^2\).`,
+ s:r`<p>Cruces: \(x^2=3x\Rightarrow x=0,\,3\).</p><p>Arriba va \(y=3x\).</p><p>\(A=\displaystyle\int_0^3(3x-x^2)\,dx=\left[\dfrac{3x^2}{2}-\dfrac{x^3}{3}\right]_0^3\).</p><p class="final">Resultado: \(\dfrac92\,u^2\).</p>`},
+{p:r`Área entre \(y=8-x^2\) y \(y=x^2\).`,
+ s:r`<p>Cruces: \(x^2=8-x^2\Rightarrow x=\pm2\).</p><p>Arriba va \(y=8-x^2\).</p><p>\(A=\displaystyle\int_{-2}^{2}(8-2x^2)\,dx=\left[8x-\dfrac{2x^3}{3}\right]_{-2}^{2}\).</p><p class="final">Resultado: \(\dfrac{64}{3}\,u^2\).</p>`}],
+riemann:[
+{p:r`Con sumas de Riemann, calcula \(\displaystyle\int_0^1 x^2\,dx\).`,
+ s:r`<p>\(\Delta x=\dfrac1n\), \(x_i=\dfrac in\), \(f(x_i)=\dfrac{i^2}{n^2}\).</p><p>\(\displaystyle\sum f(x_i)\Delta x=\dfrac{1}{n^3}\cdot\dfrac{n(n+1)(2n+1)}{6}\).</p><p>Simplificando: \(\dfrac{(n+1)(2n+1)}{6n^2}\).</p><p class="final">\(\displaystyle\lim_{n\to\infty}=\dfrac{2}{6}=\dfrac13\).</p>`},
+{p:r`Con sumas de Riemann, calcula \(\displaystyle\int_0^2(3x+1)\,dx\).`,
+ s:r`<p>\(\Delta x=\dfrac2n\), \(x_i=\dfrac{2i}{n}\), \(f(x_i)=\dfrac{6i}{n}+1\).</p><p>\(\displaystyle\sum\left(\dfrac{6i}{n}+1\right)\dfrac2n=\dfrac{12}{n^2}\sum i+2\).</p><p>Con \(\sum i=\dfrac{n(n+1)}{2}\): \(\dfrac{6(n+1)}{n}+2\).</p><p class="final">\(\displaystyle\lim_{n\to\infty}=6+2=8\).</p>`},
+{p:r`Con sumas de Riemann, calcula \(\displaystyle\int_1^2 x^2\,dx\).`,
+ s:r`<p>\(\Delta x=\dfrac1n\), \(x_i=1+\dfrac in\).</p><p>\(f(x_i)=1+\dfrac{2i}{n}+\dfrac{i^2}{n^2}\).</p><p>Sumando y multiplicando por \(\Delta x\): \(1+\dfrac{n+1}{n}+\dfrac{(n+1)(2n+1)}{6n^2}\).</p><p class="final">\(\displaystyle\lim_{n\to\infty}=1+1+\dfrac13=\dfrac73\).</p>`},
+{p:r`Con sumas de Riemann, calcula \(\displaystyle\int_0^3 x^2\,dx\).`,
+ s:r`<p>\(\Delta x=\dfrac3n\), \(x_i=\dfrac{3i}{n}\), \(f(x_i)=\dfrac{9i^2}{n^2}\).</p><p>\(\displaystyle\sum\dfrac{9i^2}{n^2}\cdot\dfrac3n=\dfrac{27}{n^3}\cdot\dfrac{n(n+1)(2n+1)}{6}\).</p><p>Simplificando: \(\dfrac{9(n+1)(2n+1)}{2n^2}\).</p><p class="final">\(\displaystyle\lim_{n\to\infty}=\dfrac{9\cdot2}{2}=9\).</p>`}]
+};
+
 function tx(el){if(window.mjReady){MathJax.typesetPromise([el]).catch(function(){});}}
 
 function stepper(ex,label){
@@ -392,10 +440,11 @@ s.innerHTML=`<span class="tag">Tema ${ti+1}</span><h2>${t.emoji} ${t.title}</h2>
 <div class="card"><h3>La receta</h3><ol class="recipe">${t.recipe.map((x,k)=>`<li>${x}<details class="why"><summary>¿Por qué hago esto?</summary><p>${X2[t.id].why[k]}</p></details><div class="care">⚠️ <b>¡Cuidado!</b> ${X2[t.id].care[k]}</div></li>`).join('')}</ol></div>
 <div class="card mnemo">🧠 Para recordar: ${X2[t.id].mn}</div>
 <h3 class="sub">Ejemplos resueltos, paso a paso</h3><div class="exs"></div>
-<div class="card practice"><h3>🎯 Práctica guiada: ahora lo haces tú</h3><p class="prob">${t.practice.problem}</p><p style="margin:6px 0;color:var(--mut)">Te voy preguntando paso a paso. Elige la respuesta. Si fallas, te doy una pista y lo intentas otra vez.</p><div class="gp"></div></div>`;
+<div class="card practice"><h3>🎯 Práctica guiada: ahora lo haces tú</h3><p class="prob">${t.practice.problem}</p><p style="margin:6px 0;color:var(--mut)">Te voy preguntando paso a paso. Elige la respuesta. Si fallas, te doy una pista y lo intentas otra vez.</p><div class="gp"></div></div>
+<div class="card exerc"><h3>✍️ Ejercicios para resolver</h3><p style="margin:0 0 4px;color:var(--mut)">Resuélvelos en tu cuaderno y luego toca «Ver solución» para comparar.</p><ol class="exlist">${EX[t.id].map((e,k)=>`<li><p class="prob">${e.p}</p><button class="b sol" type="button" data-ex="${k}" aria-expanded="false">Ver solución</button><div class="solbox"></div></li>`).join('')}</ol></div>`;
 const box=s.querySelector('.exs');
 t.examples.forEach((e,k)=>box.appendChild(stepper(e,'Ejemplo '+'AB'[k])));
-guided(s.querySelector('.gp'),t);root.appendChild(s);});
+guided(s.querySelector('.gp'),t);s.querySelectorAll('.exlist .sol').forEach(btn=>{const k=+btn.dataset.ex;btn.addEventListener('click',()=>{const bx=btn.nextElementSibling;if(!bx.innerHTML.trim())bx.innerHTML=EX[t.id][k].s;const open=bx.classList.toggle('on');btn.textContent=open?'Ocultar solución':'Ver solución';btn.setAttribute('aria-expanded',open?'true':'false');if(open)tx(bx);});});root.appendChild(s);});
 
 (function(){
 const cv=document.getElementById('cv');if(!cv)return;
