@@ -842,6 +842,38 @@ main, .nav, .foot { position: relative; z-index: 1; }
   box-shadow: 0 24px 60px -18px rgba(255,92,157,.6);
 }
 
+/* ---------- horario ---------- */
+
+.horario-card {
+  display: grid;
+  grid-template-columns: 1.4fr .6fr;
+  gap: 32px;
+  align-items: center;
+  padding: 42px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,229,192,.28);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(0,229,192,.16), transparent 60%),
+    linear-gradient(170deg, var(--surface) 0%, var(--bg-soft) 100%);
+}
+.horario-card .eyebrow { color: var(--mint); }
+.horario-card .eyebrow::before { background: var(--mint); }
+.horario-card h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); margin-bottom: 14px; }
+.horario-card p { color: var(--muted); max-width: 58ch; margin-bottom: 20px; }
+.horario-card .chips { margin-top: 0; padding-top: 0; border-top: 0; margin-bottom: 24px; }
+.horario-visual { display: grid; place-items: center; }
+.horario-badge {
+  width: 148px;
+  height: 148px;
+  border-radius: 30px;
+  display: grid;
+  place-items: center;
+  color: #06090F;
+  background: var(--grad);
+  box-shadow: 0 24px 60px -18px rgba(0,229,192,.45);
+}
+.horario-badge svg { width: 76px; height: 76px; }
+
 /* ---------- skills ---------- */
 
 .skills {
@@ -1132,6 +1164,8 @@ main, .nav, .foot { position: relative; z-index: 1; }
   .cta-final { padding: 46px 24px; }
   .complemento { grid-template-columns: 1fr; padding: 28px; }
   .complemento-visual { display: none; }
+  .horario-card { grid-template-columns: 1fr; padding: 28px; }
+  .horario-visual { display: none; }
 }
 
 @media (max-width: 520px) {
@@ -1140,6 +1174,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
   .hero-float { display: none; }
   .btn { padding: 14px 22px; }
   .complemento { padding: 24px; }
+  .horario-card { padding: 24px; }
   .code-body { font-size: .7rem; padding: 16px 14px 20px; line-height: 1.85; }
 }
 
@@ -1177,6 +1212,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
 
     <nav class="nav-links" aria-label="Navegación principal">
       <a href="#ruta">Tu ruta</a>
+      <a href="#horario">Horario</a>
       <a href="#aprender">Qué aprenderás</a>
       <a href="#como">Cómo funciona</a>
       <a href="#preguntas">Preguntas</a>
@@ -1194,6 +1230,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
 
   <div class="mobile-menu" id="mobileMenu">
     <a href="#ruta">Tu ruta</a>
+    <a href="#horario">Horario</a>
     <a href="#aprender">Qué aprenderás</a>
     <a href="#como">Cómo funciona</a>
     <a href="#preguntas">Preguntas</a>
@@ -1389,6 +1426,41 @@ main, .nav, .foot { position: relative; z-index: 1; }
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- =================== HORARIO =================== -->
+<section class="sec-tight" id="horario">
+  <div class="wrap">
+    <div class="horario-card reveal">
+      <div>
+        <span class="eyebrow">Horario y calendario</span>
+        <h2>Tu plan de clases, siempre a mano.</h2>
+        <p>
+          Abre el horario de Platzi para ver la semana de materias, el calendario de entregas
+          y exámenes, y el seguimiento de tus cursos en un solo lugar.
+        </p>
+        <div class="chips">
+          <span>Horario semanal</span>
+          <span>Calendario de entregas</span>
+          <span>Exámenes y feriados</span>
+          <span>Seguimiento de cursos</span>
+        </div>
+        <a class="btn btn-primary" href="horario_Platzi.html">
+          Abrir calendario y horario
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <div class="horario-visual" aria-hidden="true">
+        <span class="horario-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18"/>
+            <path d="M8 14h3v3H8zM14 14h3v3h-3z"/>
+          </svg>
+        </span>
+      </div>
     </div>
   </div>
 </section>
@@ -1591,6 +1663,7 @@ main, .nav, .foot { position: relative; z-index: 1; }
           <a href="#aprender">Qué aprenderás</a>
           <a href="#como">Cómo funciona</a>
           <a href="#preguntas">Preguntas</a>
+          <a href="#horario">Calendario y horario · Platzi</a>
           <a href="#calculo">Complemento · Cálculo Integral</a>
         </div>
         <div class="foot-col">

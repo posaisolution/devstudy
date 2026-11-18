@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan escolar de Sebastián · Platzi</title>
+<style>
+:root{
+  --bg:#f5f4ef; --ink:#1c2230; --muted:#5b6376; --line:#dcd9cf; --card:#ffffff;
+  --ing:#7c3aed; --dis:#db2777; --ia:#0891b2; --hb:#d97706; --prog:#16a34a; --brk:#64748b;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 56px}
+header.hero{background:#1c2230;color:#fff;padding:36px 0 30px;margin-bottom:28px}
+header.hero .wrap{padding-bottom:0}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin:0 0 6px}
+h1{font-size:clamp(26px,4.2vw,40px);line-height:1.15;margin:0 0 10px}
+.sub{margin:0;opacity:.85;max-width:720px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);padding:5px 12px;border-radius:999px;font-size:14px}
+h2{font-size:22px;margin:40px 0 6px}
+p.lead{margin:0 0 16px;color:var(--muted)}
+.scroll{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:720px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14.5px}
+th{background:#faf9f5;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.time{white-space:nowrap;font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.cls{display:block;border-left:4px solid var(--c,#999);background:color-mix(in srgb,var(--c,#999) 11%,white);padding:6px 9px;border-radius:6px;font-weight:600;font-size:14px}
+.cls small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.a-ing{--c:var(--ing)} .a-dis{--c:var(--dis)} .a-ia{--c:var(--ia)} .a-hb{--c:var(--hb)} .a-prog{--c:var(--prog)} .a-brk{--c:var(--brk)}
+tr.brk td{background:#eef0f4;color:var(--muted);font-size:13px;text-align:center;padding:5px}
+tr.brk td.time{background:#eef0f4}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 12px;font-size:13.5px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;background:var(--c)}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.rule h3{margin:0 0 4px;font-size:16px}
+.rule p{margin:0;color:var(--muted);font-size:14.5px}
+.rule .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#1c2230;color:#fff;font-size:13px;margin-right:6px}
+/* calendar grid */
+table.cal{min-width:980px}
+table.cal td.wk{white-space:nowrap;width:150px}
+table.cal td.wk b{display:block}
+table.cal td.wk span{color:var(--muted);font-size:12.5px}
+table.cal tr.rec td,table.cal tr.reg td{text-align:center;font-weight:600;background:#eef0f4;color:var(--muted)}
+table.cal tr.reg td{background:#fdf1e3;color:#8a4b08}
+table.cal tr.today td.wk{box-shadow:inset 4px 0 0 #e11d48}
+table.cal tr.today{background:#fff8f8}
+.ex{display:inline-block;margin-top:4px;font-size:11.5px;font-weight:700;color:#fff;background:#e11d48;border-radius:4px;padding:1px 6px}
+.hol{display:block;font-size:11.5px;color:#8a4b08;margin-top:2px}
+.chip{border-left:4px solid var(--c);background:color-mix(in srgb,var(--c) 10%,white);border-radius:6px;padding:5px 8px;margin-bottom:5px;font-size:13.5px;line-height:1.3}
+.chip:last-child{margin-bottom:0}
+.t{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:1px}
+.t.in{background:#dcfce7;color:#166534}
+.t.fin{background:#fee2e2;color:#991b1b}
+.t.cont{background:#eef0f4;color:var(--muted)}
+/* course list */
+.sum{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0 0 12px}
+.bar{flex:1;min-width:180px;height:12px;background:#e6e3d9;border-radius:99px;overflow:hidden}
+.bar div{height:100%;width:0;background:#16a34a;transition:width .3s}
+.sum strong{font-size:15px}
+table.list{min-width:760px}
+table.list tr.area td{background:color-mix(in srgb,var(--c) 14%,white);font-weight:700;border-left:5px solid var(--c)}
+table.list tr.area td small{font-weight:400;color:var(--muted);margin-left:6px}
+table.list td.d{white-space:nowrap;font-variant-numeric:tabular-nums}
+table.list td.d.fin{font-weight:600}
+select{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:#fff}
+tr.st-Aprobado td.name{color:#166534}
+tr.st-Aprobado td.name:before{content:"✓ "}
+tr.st-Recursar td{background:#fff1f1}
+tr.st-Recursar td.name{color:#991b1b;font-weight:600}
+.note{font-size:13.5px;color:var(--muted);margin-top:10px}
+.btn{font:inherit;font-size:14px;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.btn:hover{background:#faf9f5}
+footer{margin-top:40px;color:var(--muted);font-size:13px}
+@media print{
+  body{background:#fff}
+  header.hero{background:#fff;color:#000;border-bottom:2px solid #000;padding:12px 0}
+  .pill{border-color:#999;background:none;color:#000}
+  .btn{display:none}
+  .scroll{overflow:visible;border:0}
+  table{min-width:0}
+  th{position:static}
+  h2{break-after:avoid}
+  tr{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Plan escolar · Platzi</p>
+    <h1>Sebastián Robledo Mena</h1>
+    <p class="sub">Horario diario, calendario de cursos con fecha de inicio y fin, y evaluación al terminar cada curso. Si un curso no se aprueba, se vuelve a tomar.</p>
+    <div class="pills">
+      <span class="pill">Lunes a viernes · 8:00 a 13:00</span>
+      <span class="pill">Periodo: 23 nov 2026 – 5 mar 2027</span>
+      <span class="pill">3 periodos + receso + regularización</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<h2 style="margin-top:0">1. Horario diario</h2>
+<p class="lead">Un solo descanso de 15 minutos a media jornada y 5 minutos entre clases para cambiar de materia.</p>
+<div class="legend">
+  <span style="--c:var(--ing)"><i></i>English Academy</span>
+  <span style="--c:var(--dis)"><i></i>Diseño gráfico</span>
+  <span style="--c:var(--ia)"><i></i>AI Academy</span>
+  <span style="--c:var(--hb)"><i></i>Habilidades blandas</span>
+  <span style="--c:var(--prog)"><i></i>Desarrollo web y programación</span>
+</div>
+<div class="scroll">
+<table>
+  <thead><tr><th>Hora</th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td class="time">8:00 – 9:20<br><small>80 min</small></td>
+      <td><span class="cls a-ing">English Academy</span></td>
+      <td><span class="cls a-ing">English Academy</span></td>
+      <td><span class="cls a-ing">English Academy</span></td>
+      <td><span class="cls a-ing">English Academy</span></td>
+      <td><span class="cls a-ing">English Academy</span></td>
+    </tr>
+    <tr class="brk"><td class="time">9:20 – 9:25</td><td colspan="5">Cambio de clase · 5 min</td></tr>
+    <tr>
+      <td class="time">9:25 – 10:45<br><small>80 min</small></td>
+      <td><span class="cls a-dis">Diseño gráfico</span></td>
+      <td><span class="cls a-dis">Diseño gráfico</span></td>
+      <td><span class="cls a-dis">Diseño gráfico</span></td>
+      <td><span class="cls a-dis">Diseño gráfico</span></td>
+      <td><span class="cls a-dis">Proyecto práctico de diseño</span></td>
+    </tr>
+    <tr class="brk"><td class="time">10:45 – 11:00</td><td colspan="5"><b>RECESO · 15 min</b></td></tr>
+    <tr>
+      <td class="time">11:00 – 12:00<br><small>60 min</small></td>
+      <td><span class="cls a-ia">AI Academy</span></td>
+      <td><span class="cls a-ia">AI Academy</span></td>
+      <td><span class="cls a-ia">AI Academy</span></td>
+      <td><span class="cls a-ia">AI Academy</span></td>
+      <td><span class="cls a-ia">AI Academy</span></td>
+    </tr>
+    <tr class="brk"><td class="time">12:00 – 12:05</td><td colspan="5">Cambio de clase · 5 min</td></tr>
+    <tr>
+      <td class="time">12:05 – 13:00<br><small>55 min</small></td>
+      <td><span class="cls a-hb">Habilidades blandas</span></td>
+      <td><span class="cls a-prog">Desarrollo web y programación</span></td>
+      <td><span class="cls a-hb">Habilidades blandas</span></td>
+      <td><span class="cls a-prog">Desarrollo web y programación</span></td>
+      <td><span class="cls a-brk">Evaluaciones y repaso semanal<small>Examen oral de los cursos que terminan esa semana</small></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="note">Cada día: 4 horas 35 minutos de clase, 15 minutos de receso y 10 minutos de cambios de clase. El viernes, el bloque de 12:05 a 13:00 se usa para evaluar y para repasar.</p>
+
+<h2>2. Reglas del plan escolar</h2>
+<p class="lead">Funciona como una universidad: cada curso tiene fecha de inicio, fecha de fin y evaluación.</p>
+<div class="rules">
+  <div class="rule"><h3><span class="n">1</span>Asistencia</h3><p>Empieza puntual a las 8:00 y respeta los horarios y el receso. Cada bloque se dedica a su materia.</p></div>
+  <div class="rule"><h3><span class="n">2</span>Fecha de fin</h3><p>El curso debe estar terminado el viernes que marca el calendario. Si termina antes, puede adelantar el siguiente curso del área.</p></div>
+  <div class="rule"><h3><span class="n">3</span>Evaluación</h3><p>El viernes de fin del curso presenta lo aprendido: el examen o proyecto del curso en Platzi, si lo tiene, y una explicación oral de unos 10 minutos con preguntas de su papá.</p></div>
+  <div class="rule"><h3><span class="n">4</span>Aprobar</h3><p>Aprueba si responde bien al menos 4 de 5 preguntas y entrega la práctica o proyecto del curso.</p></div>
+  <div class="rule"><h3><span class="n">5</span>Recursar</h3><p>Si no aprueba, vuelve a tomar el curso completo. Se marca como "Recursar", se repasa en los viernes y se vuelve a evaluar en la semana de regularización (1 al 5 de marzo).</p></div>
+  <div class="rule"><h3><span class="n">6</span>Evaluación de periodo</h3><p>El último viernes de cada periodo (18 dic, 29 ene y 26 feb) presenta su proyecto de diseño del periodo.</p></div>
+</div>
+
+<h2>3. Calendario semanal</h2>
+<p class="lead">Cada curso muestra cuándo inicia y cuándo termina. La semana de hoy se marca con una barra roja.</p>
+<div class="scroll">
+<table class="cal" id="cal">
+  <thead><tr><th>Semana</th><th>Inglés</th><th>Diseño gráfico</th><th>AI Academy</th><th>Habilidades blandas</th><th>Desarrollo web y programación</th></tr></thead>
+  <tbody></tbody>
+</table>
+</div>
+
+<h2>4. Cursos, fechas y avance</h2>
+<p class="lead">Marca el estado de cada curso. Los cambios se guardan en este navegador.</p>
+<div class="sum">
+  <strong id="sumtxt">0 de 0 cursos aprobados</strong>
+  <div class="bar"><div id="barfill"></div></div>
+  <button class="btn" onclick="window.print()">Imprimir</button>
+</div>
+<div class="scroll">
+<table class="list" id="list">
+  <thead><tr><th>Curso</th><th>Inicia</th><th>Termina y se evalúa</th><th>Estado</th></tr></thead>
+  <tbody></tbody>
+</table>
+</div>
+<p class="note">Las fechas son fechas límite estimadas a partir de las horas de cada ruta de Platzi. English Academy se divide por nivel; los cursos de cada nivel se agregan al calendario cuando se conozcan. Lunes 1 de febrero es feriado y receso de invierno es del 21 de diciembre al 1 de enero.</p>
+
+<footer>Plan escolar generado el 17 de noviembre de 2026. Las fechas se pueden ajustar si cambia el ritmo de Sebastián.</footer>
+</main>
+
+<script>
+(function(){
+  var P=function(iso){var a=iso.split('-').map(Number);return new Date(a[0],a[1]-1,a[2]);};
+  var add=function(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);};
+  var f1=function(d){return d.toLocaleDateString('es-MX',{day:'numeric',month:'short'}).replace(/\./g,'');};
+  var f2=function(d){return d.toLocaleDateString('es-MX',{weekday:'short',day:'numeric',month:'short',year:'numeric'}).replace(/[.,]/g,'');};
+
+  var WEEKS=[
+    {n:1,mon:'2026-11-23',per:'Periodo 1'},
+    {n:2,mon:'2026-11-30'},
+    {n:3,mon:'2026-12-07'},
+    {n:4,mon:'2026-12-14',exam:'Evaluación del periodo 1'},
+    {rec:'Receso de invierno · 21 dic 2026 – 1 ene 2027'},
+    {n:5,mon:'2027-01-04',per:'Periodo 2'},
+    {n:6,mon:'2027-01-11'},
+    {n:7,mon:'2027-01-18'},
+    {n:8,mon:'2027-01-25',exam:'Evaluación del periodo 2'},
+    {n:9,mon:'2027-02-01',per:'Periodo 3',hol:'Lunes 1 feb: feriado'},
+    {n:10,mon:'2027-02-08'},
+    {n:11,mon:'2027-02-15'},
+    {n:12,mon:'2027-02-22',exam:'Evaluación del periodo 3'},
+    {n:13,mon:'2027-03-01',reg:'Semana de regularización · 1 al 5 de marzo · se vuelven a tomar y evaluar los cursos marcados como "Recursar"'}
+  ];
+  var byN={};WEEKS.forEach(function(w){if(w.n)byN[w.n]=w;});
+
+  var AREAS=[
+    {k:'ing',t:'Inglés',s:'English Academy'},
+    {k:'dis',t:'Diseño gráfico',s:'Escuela de Diseño Gráfico y Arte Digital'},
+    {k:'ia',t:'AI Academy',s:'Inteligencia artificial'},
+    {k:'hb',t:'Habilidades blandas',s:'Liderazgo y Habilidades Blandas'},
+    {k:'prog',t:'Desarrollo web y programación',s:'Escuelas de Desarrollo Web y Programación'}
+  ];
+  var C={
+    ing:[
+      ['Nivel A1 (todos los cursos del nivel)',1,4],
+      ['Nivel A2 (todos los cursos del nivel)',5,8],
+      ['Nivel B1 (inicio del nivel)',9,12]
+    ],
+    dis:[
+      ['Curso de Fundamentos de Diseño Gráfico',1,2],
+      ['Curso de Uso y Manejo del Color',3,3],
+      ['Curso de Composición Visual para Proyectos Gráficos',4,4],
+      ['Curso de Photoshop',5,6],
+      ['Curso de Illustrator para Diseño Gráfico',7,8],
+      ['Curso de Tipografía Creativa',9,10],
+      ['Curso de Lettering Creativo',11,11],
+      ['Curso de Canva',12,12]
+    ],
+    ia:[
+      ['Curso Gratis de Introducción a la Inteligencia Artificial',1,1],
+      ['Curso de Pensamiento Crítico para usar Inteligencia Artificial',1,1],
+      ['Curso de Prompt Engineering',2,2],
+      ['Curso de Context Engineering',3,3],
+      ['Curso de Ética en IA',3,3],
+      ['Curso de Ciberseguridad para Trabajar con AI',4,4],
+      ['Curso de ChatGPT',4,4],
+      ['Curso de Claude AI',5,5],
+      ['Curso de Gemini',5,5],
+      ['Curso de Generación de Imágenes con IA',6,6],
+      ['Curso de Generación de Videos con IA',7,7],
+      ['Curso de AI para Reuniones y Notas',8,8],
+      ['Curso de Vibe Coding con Google AI Studio',9,9],
+      ['Curso de Creación de Páginas Web con v0',10,10],
+      ['Curso de Claude Code para No Programadores',11,11],
+      ['Curso de Automatizaciones Básicas con Make',12,12]
+    ],
+    hb:[
+      ['Curso para Aprender en Línea Efectivamente',1,1],
+      ['Curso de Técnicas Efectivas de Estudio',2,2],
+      ['Curso de Gestión Efectiva del Tiempo',3,3],
+      ['Curso para Crear Hábitos Positivos',4,4],
+      ['Curso de Comunicación Asertiva',5,6],
+      ['Curso de Inteligencia Emocional',7,8],
+      ['Curso de Habilidades Blandas para el Desarrollo Profesional',9,10],
+      ['Curso para Tomar Decisiones en el Trabajo',11,11],
+      ['Curso de Orientación Vocacional',12,12]
+    ],
+    prog:[
+      ['Curso de Introducción a la Web: Historia y Funcionamiento de Internet',1,1],
+      ['Curso Básico de Computadores e Informática',2,2],
+      ['Curso de HTML',3,4],
+      ['Curso de CSS',5,6],
+      ['Curso Práctico de HTML y CSS',7,8],
+      ['Curso de Responsive Design: Maquetación Mobile First',9,10],
+      ['Curso de Fundamentos de JavaScript',11,12]
+    ]
+  };
+
+  var startOf=function(c){return P(byN[c[1]].mon);};
+  var endOf=function(c){return add(P(byN[c[2]].mon),4);};
+
+  /* ---------- calendar grid ---------- */
+  var today=new Date();today=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  var tb=document.querySelector('#cal tbody');
+  var html='';
+  WEEKS.forEach(function(w){
+    if(w.rec){html+='<tr class="rec"><td colspan="6">'+w.rec+'</td></tr>';return;}
+    var mon=P(w.mon),fri=add(mon,4);
+    var isToday=today>=mon&&today<=add(mon,6);
+    if(w.reg){
+      html+='<tr class="reg'+(isToday?' today':'')+'"><td class="wk" style="text-align:left;background:#fdf1e3"><b>Semana '+w.n+'</b><span>'+f1(mon)+' – '+f1(fri)+'</span></td><td colspan="5">'+w.reg+'</td></tr>';
+      return;
+    }
+    html+='<tr'+(isToday?' class="today"':'')+'><td class="wk"><b>Semana '+w.n+'</b><span>'+f1(mon)+' – '+f1(fri)+'</span>'+
+      (w.per?'<span><b style="display:inline">'+w.per+'</b></span>':'')+
+      (w.hol?'<span class="hol">'+w.hol+'</span>':'')+
+      (w.exam?'<span class="ex">'+w.exam+' · vie '+f1(fri)+'</span>':'')+'</td>';
+    AREAS.forEach(function(a){
+      var cells='';
+      C[a.k].forEach(function(c){
+        if(w.n>=c[1]&&w.n<=c[2]){
+          var tags='';
+          if(w.n===c[1])tags+='<b class="t in">Inicia</b>';
+          if(w.n===c[2])tags+='<b class="t fin">Termina · evaluación vie '+f1(fri)+'</b>';
+          if(w.n!==c[1]&&w.n!==c[2])tags+='<b class="t cont">Continúa</b>';
+          cells+='<div class="chip a-'+a.k+'">'+c[0]+tags+'</div>';
+        }
+      });
+      html+='<td>'+cells+'</td>';
+    });
+    html+='</tr>';
+  });
+  tb.innerHTML=html;
+
+  /* ---------- course list + status ---------- */
+  var KEY='plan-sebastian-platzi-v1';
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){state={};}
+  var save=function(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}};
+  var STATES=['Pendiente','En curso','Aprobado','Recursar'];
+
+  var lb=document.querySelector('#list tbody');
+  var lh='';
+  var total=0;
+  AREAS.forEach(function(a){
+    lh+='<tr class="area a-'+a.k+'"><td colspan="4">'+a.t+'<small>'+a.s+'</small></td></tr>';
+    C[a.k].forEach(function(c,i){
+      total++;
+      var id=a.k+i;
+      var cur=state[id]||'Pendiente';
+      var opts=STATES.map(function(s){return '<option'+(s===cur?' selected':'')+'>'+s+'</option>';}).join('');
+      lh+='<tr class="st-'+cur+'" data-id="'+id+'"><td class="name">'+c[0]+'</td><td class="d">'+f2(startOf(c))+'</td><td class="d fin">'+f2(endOf(c))+'</td><td><select data-id="'+id+'">'+opts+'</select></td></tr>';
+    });
+  });
+  lb.innerHTML=lh;
+
+  var refresh=function(){
+    var ok=0;
+    Object.keys(state).forEach(function(k){if(state[k]==='Aprobado')ok++;});
+    document.getElementById('sumtxt').textContent=ok+' de '+total+' cursos aprobados';
+    document.getElementById('barfill').style.width=(total?Math.round(ok/total*100):0)+'%';
+  };
+  lb.addEventListener('change',function(e){
+    var s=e.target;if(!s.matches('select'))return;
+    var id=s.getAttribute('data-id');
+    state[id]=s.value;save();
+    s.closest('tr').className='st-'+s.value;
+    refresh();
+  });
+  refresh();
+})();
+</script>
+</body>
+</html>
